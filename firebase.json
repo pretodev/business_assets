@@ -1,0 +1,21 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "tractian-9170b",
+          "appId": "1:235970969079:android:73e5ee15cef6ee386702f2",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "tractian-9170b",
+          "configurations": {
+            "android": "1:235970969079:android:73e5ee15cef6ee386702f2"
+          }
+        }
+      }
+    }
+  }
+}
