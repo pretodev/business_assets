@@ -1,6 +1,20 @@
-# Business Assets
+# Business Assets [![Codemagic build status](https://api.codemagic.io/apps/6738a16d90a1f90519e1e954/6738a16d90a1f90519e1e953/status_badge.svg)](https://codemagic.io/app/6738a16d90a1f90519e1e954/6738a16d90a1f90519e1e953/latest_build)
 
 **Business Assets** was created as an innovative solution to facilitate the management of industrial assets and components. It offers a hierarchical view of the assets, components, and locations of companies, using an intuitive tree structure that simplifies navigation and monitoring. My mission is to ensure that you have quick and organized access to all the necessary information for efficient operation.
+
+# Solution
+
+I developed a Flutter application, available for Android devices through Firebase App Distribution.
+
+To gain access to the application, please follow these steps:
+
+1. Click the link below to join the open group: 
+> https://appdistribution.firebase.dev/i/ae4341b7582c14d9
+2. Once you join, you will receive instructions to download and install the app on your Android device.
+
+
+
+
 
 ### Development Methodology
 
