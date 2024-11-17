@@ -16,6 +16,8 @@ void main() {
       final companyAsset = CompanyAsset(
         id: Uid.fromString('123'),
         name: 'Test Asset',
+        locationId: Uid.fromString('456'),
+        parentId: Uid.fromString('789'),
       );
 
       final result = mapper.toData(companyAsset);
@@ -23,9 +25,28 @@ void main() {
       expect(result, isA<JsonData>());
       expect(result['id'], '123');
       expect(result['name'], 'Test Asset');
+      expect(result['location_id'], '456');
+      expect(result['parent_id'], '789');
     });
 
     test('toEntity should convert JsonData to CompanyAsset', () {
+      final jsonData = {
+        'id': '123',
+        'name': 'Test Asset',
+        'location_id': '456',
+        'parent_id': '789',
+      };
+
+      final result = mapper.toEntity(jsonData);
+
+      expect(result, isA<CompanyAsset>());
+      expect(result.id.value, '123');
+      expect(result.name, 'Test Asset');
+      expect(result.locationId?.value, '456');
+      expect(result.parentId?.value, '789');
+    });
+
+    test('toEntity should handle null location_id and parent_id', () {
       final jsonData = {
         'id': '123',
         'name': 'Test Asset',
@@ -36,6 +57,8 @@ void main() {
       expect(result, isA<CompanyAsset>());
       expect(result.id.value, '123');
       expect(result.name, 'Test Asset');
+      expect(result.locationId, isNull);
+      expect(result.parentId, isNull);
     });
 
     test('toEntity should throw an error if id is missing', () {

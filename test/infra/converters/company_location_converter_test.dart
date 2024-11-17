@@ -16,6 +16,7 @@ void main() {
       final companyLocation = CompanyLocation(
         id: Uid.fromString('456'),
         name: 'Test Location',
+        parentId: Uid.fromString('123'),
       );
 
       final result = converter.toData(companyLocation);
@@ -23,9 +24,26 @@ void main() {
       expect(result, isA<JsonData>());
       expect(result['id'], '456');
       expect(result['name'], 'Test Location');
+      expect(result['parent_id'], '123');
     });
 
     test('toEntity should convert JsonData to CompanyLocation', () {
+      final jsonData = {
+        'id': '456',
+        'name': 'Test Location',
+        'parent_id': '123',
+      };
+
+      final result = converter.toEntity(jsonData);
+
+      expect(result, isA<CompanyLocation>());
+      expect(result.id.value, '456');
+      expect(result.name, 'Test Location');
+      expect(result.parentId?.value, '123');
+    });
+
+    test('toEntity should convert JsonData to CompanyLocation without parentId',
+        () {
       final jsonData = {
         'id': '456',
         'name': 'Test Location',
@@ -36,6 +54,7 @@ void main() {
       expect(result, isA<CompanyLocation>());
       expect(result.id.value, '456');
       expect(result.name, 'Test Location');
+      expect(result.parentId, isNull);
     });
 
     test('toEntity should throw an error if id is missing', () {
