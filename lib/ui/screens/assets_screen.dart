@@ -190,11 +190,8 @@ class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
           TextField(
             controller: searchController,
             decoration: InputDecoration(
-              hintText: 'Search',
+              hintText: 'Buscar Ativo ou Local',
               prefixIcon: const Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
             ),
           ),
           const SizedBox(height: 8),
@@ -208,7 +205,9 @@ class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
               const SizedBox(width: 8),
               SwitchButton(
                 label: 'Crítico',
-                icon: const Icon(Icons.error_outline_sharp),
+                icon: Icon(
+                  Icons.error_outline_sharp,
+                ),
                 onChanged: toggleAlertStatusFilter,
               ),
               const Spacer(),

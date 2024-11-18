@@ -9,6 +9,7 @@ import 'infra/repositories/tractian_company_asset_repository.dart';
 import 'infra/repositories/tractian_company_location_repository.dart';
 import 'infra/repositories/tractian_company_repository.dart';
 import 'ui/screens/companies_screen.dart';
+import 'ui/styles/styles.dart';
 
 void main() {
   buildApp(
@@ -33,9 +34,10 @@ class BusinessAssetsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      home: const CompaniesScreen(),
+      theme: AppStyle().theme,
       title: 'Tractian: Business Assets',
-      home: CompaniesScreen(),
     );
   }
 }
