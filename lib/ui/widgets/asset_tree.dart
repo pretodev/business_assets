@@ -5,6 +5,7 @@ import '../../domain/commom/uid.dart';
 import '../../domain/company_asset/company_asset.dart';
 import '../../domain/company_asset/statuses.dart';
 import '../../domain/company_location/company_location.dart';
+import '../styles/styles.dart';
 import 'app_icon.dart';
 
 sealed class TreeNodeModel {
@@ -289,7 +290,14 @@ class AssetTreeTile extends StatelessWidget {
           LocationNodeModel() => const AppIcon(name: 'location', size: 22),
         },
         const SizedBox(width: 4),
-        Flexible(child: Text(node.label)),
+        Flexible(
+          child: Text(
+            node.label,
+            style: context.appTextStyles.bodyMedium.copyWith(
+              color: context.appColors.textPrimary,
+            ),
+          ),
+        ),
         const SizedBox(width: 4),
         switch (node) {
           AssetNodeModel(asset: final asset) =>
