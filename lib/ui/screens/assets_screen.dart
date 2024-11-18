@@ -20,10 +20,12 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
 
   Map<Uid, List<TreeNode>> _treeNodes = {};
 
+  final Set<Uid> _expandedNodes = {};
+
   final rootId = Uid.fromString('root');
 
   void _loadAssets() async {
-    final companyId = Uid.fromString('662fd0ee639069143a8fc387');
+    final companyId = Uid.fromString('662fd100f990557384756e58');
     final assets = await assetRepository.fromCompany(companyId);
     final locations = await locationRepository.fromCompany(companyId);
 
@@ -45,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
 
     final nodes = [...assetNodes, ...locationNodes];
 
+    _treeNodes.clear();
     for (final node in nodes) {
       final parentId = node.parentId ?? rootId;
       if (!_treeNodes.containsKey(parentId)) {
@@ -52,8 +55,54 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
       }
       _treeNodes[parentId]?.add(node);
     }
+    setState(() {});
+  }
 
-    debugPrint('${_treeNodes}', wrapWidth: 1024);
+  bool nodeHasChildren(Uid id) {
+    return _treeNodes.containsKey(id) && (_treeNodes[id]?.isNotEmpty ?? false);
+  }
+
+  void _toggleExpansion(Uid nodeId) {
+    setState(() {
+      if (_expandedNodes.contains(nodeId)) {
+        _expandedNodes.remove(nodeId);
+      } else {
+        _expandedNodes.add(nodeId);
+      }
+    });
+  }
+
+  List<Widget> _buildTree(Uid parentId, int level) {
+    List<Widget> widgets = [];
+
+    final children = _treeNodes[parentId] ?? [];
+    for (final node in children) {
+      final isExpanded = _expandedNodes.contains(node.id);
+
+      widgets.add(
+        ListTile(
+          leading: nodeHasChildren(node.id)
+              ? IconButton(
+                  icon: Icon(
+                    isExpanded ? Icons.expand_less : Icons.expand_more,
+                  ),
+                  onPressed: () => _toggleExpansion(node.id),
+                )
+              : SizedBox(width: 24),
+          title: Text(node.name),
+          contentPadding: EdgeInsets.only(left: level * 16.0),
+          onTap: () {
+            // Você pode adicionar ações ao tocar no item
+          },
+        ),
+      );
+
+      if (isExpanded) {
+        widgets.addAll(_buildTree(node.id, level + 1));
+      }
+    }
+
+    return widgets;
   }
 
   @override
@@ -69,7 +118,11 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
         title: const Text('Assets'),
         centerTitle: true,
       ),
-      body: Container(),
+      body: _treeNodes.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : ListView(
+              children: _buildTree(rootId, 0),
+            ),
     );
   }
 }
