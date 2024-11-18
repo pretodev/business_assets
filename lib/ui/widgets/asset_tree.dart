@@ -83,6 +83,13 @@ class AssetTreeController extends ValueNotifier<AssetTreeValue> {
 
   final rootId = Uid.fromString('root');
 
+  bool _matchesFilter(TreeNodeModel node) {
+    for (final filter in value.filters) {
+      if (filter(node)) return true;
+    }
+    return false;
+  }
+
   Set<Uid> get expandedNodes => value.expandedNodes;
 
   Map<Uid, List<TreeNodeModel>> get treeNodes => value.treeNodes;
@@ -139,13 +146,6 @@ class AssetTreeController extends ValueNotifier<AssetTreeValue> {
     value = value.copyWith(
       filters: value.filters.where((f) => f != filter).toList(),
     );
-  }
-
-  bool _matchesFilter(TreeNodeModel node) {
-    for (final filter in value.filters) {
-      if (filter(node)) return true;
-    }
-    return false;
   }
 
   void expandAll() {
@@ -330,8 +330,8 @@ class StatusIcon extends StatelessWidget {
     if (status == null) return const SizedBox(width: 0);
 
     return switch (status!) {
-      Statuses.alert => const AppIcon(name: 'bolt', size: 16),
-      Statuses.operating => Container(
+      Statuses.operating => const AppIcon(name: 'bolt', size: 16),
+      Statuses.alert => Container(
           width: 8,
           height: 8,
           decoration: BoxDecoration(

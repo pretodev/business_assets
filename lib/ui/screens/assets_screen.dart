@@ -34,18 +34,18 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
   bool _filterOnlyAlertStatus(TreeNodeModel node) {
     return switch (node) {
       AssetNodeModel(asset: final data) when data.isComponent =>
-        data.status == Statuses.alert,
-      AssetNodeModel() => false,
-      LocationNodeModel() => false,
+        data.status != Statuses.alert,
+      AssetNodeModel() => true,
+      LocationNodeModel() => true,
     };
   }
 
   bool _filterOnlyEnergySensor(TreeNodeModel node) {
     return switch (node) {
       AssetNodeModel(asset: final data) when data.isComponent =>
-        data.sensorType == SensorTypes.energy,
-      AssetNodeModel() => false,
-      LocationNodeModel() => false,
+        data.sensorType != SensorTypes.energy,
+      AssetNodeModel() => true,
+      LocationNodeModel() => true,
     };
   }
 
