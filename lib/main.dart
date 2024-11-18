@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 
-import 'initialize.dart';
-import 'ui/screens/home/home_screen.dart';
+import 'config/application.dart';
+import 'config/tractan/tractan_http_client.dart';
+import 'domain/company_asset/company_asset_repository.dart';
+import 'domain/company_location/company_location_repository.dart';
+import 'infra/repositories/tractian_company_asset_repository.dart';
+import 'infra/repositories/tractian_company_location_repository.dart';
+import 'ui/screens/assets_screen.dart';
 
 void main() {
-  initializeApp(() async {
-    return const BusinessAssetsApp();
-  });
+  buildApp(
+    bind: (i) {
+      i.addLazySingleton(TractanHttpClient.new);
+      i.addLazySingleton<CompanyLocationRepository>(
+        TractianCompanyLocationRepository.new,
+      );
+      i.addLazySingleton<CompanyAssetRepository>(
+        TractianCompanyAssetRepository.new,
+      );
+    },
+    builder: () => const BusinessAssetsApp(),
+  );
 }
 
 class BusinessAssetsApp extends StatelessWidget {
