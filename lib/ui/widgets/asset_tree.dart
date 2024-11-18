@@ -197,19 +197,22 @@ class AssetTree extends StatefulWidget {
 }
 
 class _AssetTreeState extends State<AssetTree> {
-  late AssetTreeController _controller;
+  AssetTreeController? _controller;
+
+  AssetTreeController get _effectiveController =>
+      widget.controller ?? _controller!;
 
   List<Widget> _buildTree(Uid parentId, int level) {
     final List<Widget> widgets = [];
-    for (final node in _controller.childrenOf(parentId)) {
-      final isExpanded = _controller.isExpanded(node.id);
+    for (final node in _effectiveController.childrenOf(parentId)) {
+      final isExpanded = _effectiveController.isExpanded(node.id);
       widgets.add(
         AssetTreeTile(
           key: ValueKey(node.id.value),
           node: node,
-          toggleExpansion: _controller.toggleExpansion,
+          toggleExpansion: _effectiveController.toggleExpansion,
           level: level,
-          hasChildren: _controller.hasChildren(node.id),
+          hasChildren: _effectiveController.hasChildren(node.id),
           isExpanded: isExpanded,
         ),
       );
@@ -223,19 +226,21 @@ class _AssetTreeState extends State<AssetTree> {
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller ?? AssetTreeController();
-    _controller.addListener(() => setState(() {}));
+    if (widget.controller == null) {
+      _controller = AssetTreeController();
+    }
+    _effectiveController.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final rootId = _controller.rootId;
+    final rootId = _effectiveController.rootId;
     return SliverList(
       delegate: SliverChildListDelegate(
         _buildTree(rootId, 0),
