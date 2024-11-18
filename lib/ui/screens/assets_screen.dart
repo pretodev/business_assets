@@ -40,6 +40,8 @@ class _AssetsScreenState extends State<AssetsScreen> with ServiceLocatorMixin {
   final AssetTreeController _controller = AssetTreeController();
   final TextEditingController _searchController = TextEditingController();
 
+  bool isLoading = true;
+
   bool _filterByName(TreeNodeModel node) {
     final name = switch (node) {
       LocationNodeModel(location: final data) => data.name.toLowerCase(),
@@ -99,6 +101,7 @@ class _AssetsScreenState extends State<AssetsScreen> with ServiceLocatorMixin {
   }
 
   void _loadAssets() async {
+    setState(() => isLoading = true);
     final companyId = widget.company.id;
     final assets = await assetRepository.fromCompany(companyId);
     final locations = await locationRepository.fromCompany(companyId);
@@ -106,6 +109,7 @@ class _AssetsScreenState extends State<AssetsScreen> with ServiceLocatorMixin {
       assets: assets,
       locations: locations,
     );
+    setState(() => isLoading = false);
   }
 
   @override
@@ -142,9 +146,16 @@ class _AssetsScreenState extends State<AssetsScreen> with ServiceLocatorMixin {
               toggleExpandAll: _toogleExpandAll,
             ),
           ),
-          AssetTree(
-            controller: _controller,
-          ),
+          if (isLoading)
+            const SliverFillRemaining(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          if (!isLoading)
+            AssetTree(
+              controller: _controller,
+            ),
         ],
       ),
     );
