@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/commom/uid.dart';
@@ -48,47 +49,113 @@ class LocationNodeModel extends TreeNodeModel {
         );
 }
 
+class AssetTreeValue extends Equatable {
+  final Set<Uid> expandedNodes;
+  final Map<Uid, List<TreeNodeModel>> treeNodes;
+
+  const AssetTreeValue({
+    this.expandedNodes = const {},
+    this.treeNodes = const {},
+  });
+
+  @override
+  List<Object?> get props => [expandedNodes, treeNodes];
+
+  AssetTreeValue copyWith({
+    Set<Uid>? expandedNodes,
+    Map<Uid, List<TreeNodeModel>>? treeNodes,
+  }) {
+    return AssetTreeValue(
+      expandedNodes: expandedNodes ?? this.expandedNodes,
+      treeNodes: treeNodes ?? this.treeNodes,
+    );
+  }
+}
+
+class AssetTreeController extends ValueNotifier<AssetTreeValue> {
+  AssetTreeController() : super(const AssetTreeValue());
+
+  final rootId = Uid.fromString('root');
+
+  Set<Uid> get expandedNodes => value.expandedNodes;
+
+  Map<Uid, List<TreeNodeModel>> get treeNodes => value.treeNodes;
+
+  List<TreeNodeModel> childrenIn(Uid parentId) {
+    return value.treeNodes[parentId] ?? [];
+  }
+
+  bool isExpanded(Uid nodeId) {
+    return value.expandedNodes.contains(nodeId);
+  }
+
+  void load({
+    List<CompanyLocation> locations = const [],
+    List<CompanyAsset> assets = const [],
+  }) {
+    final treeNodes = <Uid, List<TreeNodeModel>>{};
+    final nodes = [
+      ...locations.map(TreeNodeModel.fromCompanyLocation),
+      ...assets.map(TreeNodeModel.fromCompanyAsset),
+    ];
+    value = value.copyWith(
+      treeNodes: {},
+      expandedNodes: {},
+    );
+    for (final node in nodes) {
+      final parentId = node.parentId ?? rootId;
+      if (!treeNodes.containsKey(parentId)) {
+        treeNodes[parentId] = [];
+      }
+      treeNodes[parentId]?.add(node);
+    }
+    value = value.copyWith(
+      treeNodes: treeNodes,
+      expandedNodes: {},
+    );
+  }
+
+  bool hasChildren(Uid id) {
+    return value.treeNodes.containsKey(id) &&
+        (value.treeNodes[id]?.isNotEmpty ?? false);
+  }
+
+  void toggleExpansion(Uid nodeId) {
+    if (value.expandedNodes.contains(nodeId)) {
+      value.expandedNodes.remove(nodeId);
+    } else {
+      value.expandedNodes.add(nodeId);
+    }
+    notifyListeners();
+  }
+}
+
 class AssetTree extends StatefulWidget {
   const AssetTree({
     super.key,
-    required this.nodes,
+    this.controller,
   });
 
-  final List<TreeNodeModel> nodes;
+  final AssetTreeController? controller;
 
   @override
   State<AssetTree> createState() => _AssetTreeState();
 }
 
 class _AssetTreeState extends State<AssetTree> {
-  final Set<Uid> _expandedNodes = {};
-  final rootId = Uid.fromString('root');
-  final Map<Uid, List<TreeNodeModel>> _treeNodes = {};
-
-  bool _hasChildren(Uid id) {
-    return _treeNodes.containsKey(id) && (_treeNodes[id]?.isNotEmpty ?? false);
-  }
-
-  void _toggleExpansion(Uid nodeId) {
-    if (_expandedNodes.contains(nodeId)) {
-      _expandedNodes.remove(nodeId);
-    } else {
-      _expandedNodes.add(nodeId);
-    }
-    setState(() {});
-  }
+  late AssetTreeController _controller;
 
   List<Widget> _buildTree(Uid parentId, int level) {
     final List<Widget> widgets = [];
-    final children = _treeNodes[parentId] ?? [];
-    for (final node in children) {
-      final isExpanded = _expandedNodes.contains(node.id);
+    for (final node in _controller.childrenIn(parentId)) {
+      final isExpanded = _controller.isExpanded(node.id);
       widgets.add(
         AssetTreeTile(
+          key: ValueKey(node.id.value),
           node: node,
-          toggleExpansion: _toggleExpansion,
+          toggleExpansion: _controller.toggleExpansion,
           level: level,
-          hasChildren: _hasChildren(node.id),
+          hasChildren: _controller.hasChildren(node.id),
           isExpanded: isExpanded,
         ),
       );
@@ -96,26 +163,29 @@ class _AssetTreeState extends State<AssetTree> {
         widgets.addAll(_buildTree(node.id, level + 1));
       }
     }
-
     return widgets;
   }
 
   @override
   void initState() {
     super.initState();
-    for (final node in widget.nodes) {
-      final parentId = node.parentId ?? rootId;
-      if (!_treeNodes.containsKey(parentId)) {
-        _treeNodes[parentId] = [];
-      }
-      _treeNodes[parentId]?.add(node);
-    }
+    _controller = widget.controller ?? AssetTreeController();
+    _controller.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final rootId = _controller.rootId;
     return SliverList(
-      delegate: SliverChildListDelegate(_buildTree(rootId, 0)),
+      delegate: SliverChildListDelegate(
+        _buildTree(rootId, 0),
+      ),
     );
   }
 }
