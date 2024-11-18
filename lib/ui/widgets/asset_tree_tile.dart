@@ -13,7 +13,7 @@ class AssetTreeTile extends StatelessWidget {
     this.isExpanded = false,
   });
 
-  final AssetTreeNodeModel node;
+  final TreeNodeModel node;
   final int level;
   final bool hasChildren;
   final bool isExpanded;
@@ -37,7 +37,10 @@ class AssetTreeTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 4),
-          Text(node.name),
+          switch (node) {
+            AssetNodeModel(asset: final asset) => Text(asset.name),
+            LocationNodeModel(location: final location) => Text(location.name),
+          },
         ],
       ),
     );

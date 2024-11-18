@@ -10,7 +10,7 @@ class AssetTree extends StatefulWidget {
     required this.nodes,
   });
 
-  final List<AssetTreeNodeModel> nodes;
+  final List<TreeNodeModel> nodes;
 
   @override
   State<AssetTree> createState() => _AssetTreeState();
@@ -19,7 +19,7 @@ class AssetTree extends StatefulWidget {
 class _AssetTreeState extends State<AssetTree> {
   final Set<Uid> _expandedNodes = {};
   final rootId = Uid.fromString('root');
-  final Map<Uid, List<AssetTreeNodeModel>> _treeNodes = {};
+  final Map<Uid, List<TreeNodeModel>> _treeNodes = {};
 
   bool _hasChildren(Uid id) {
     return _treeNodes.containsKey(id) && (_treeNodes[id]?.isNotEmpty ?? false);
