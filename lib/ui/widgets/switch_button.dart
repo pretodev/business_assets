@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SwitchButton extends StatefulWidget {
   const SwitchButton({
     super.key,
-    required this.label,
+    this.label = '',
     required this.icon,
     required this.onChanged,
   });
@@ -37,16 +37,18 @@ class _SwitchButtonState extends State<SwitchButton> {
             color: _actived ? Theme.of(context).primaryColor : Colors.black12,
           ),
         ),
-        child: Row(
-          children: [
-            widget.icon,
-            const SizedBox(width: 8),
-            Text(
-              widget.label,
-              style: const TextStyle(color: Colors.black54),
-            ),
-          ],
-        ),
+        child: widget.label != ''
+            ? Row(
+                children: [
+                  widget.icon,
+                  const SizedBox(width: 8),
+                  Text(
+                    widget.label,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ],
+              )
+            : widget.icon,
       ),
     );
   }
