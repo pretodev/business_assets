@@ -138,36 +138,36 @@ class AssetTreeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        children: [
-          SizedBox(width: level * 16),
-          Visibility(
-            visible: hasChildren,
-            replacement: const SizedBox(width: 24),
-            child: GestureDetector(
-              child: Icon(
-                isExpanded ? Icons.expand_less : Icons.expand_more,
-              ),
-              onTap: () => toggleExpansion(node.id),
+    return Row(
+      children: [
+        Row(
+          children:
+              List.generate(level + 1, (index) => VerticalLine(level: index)),
+        ),
+        Visibility(
+          visible: hasChildren,
+          replacement: const SizedBox(width: 24),
+          child: GestureDetector(
+            child: Icon(
+              isExpanded ? Icons.expand_less : Icons.expand_more,
             ),
+            onTap: () => toggleExpansion(node.id),
           ),
-          switch (node) {
-            AssetNodeModel(asset: final asset) =>
-              AppIcon(name: asset.isComponent ? 'codepen' : 'cube', size: 22),
-            LocationNodeModel() => const AppIcon(name: 'location', size: 22),
-          },
-          const SizedBox(width: 4),
-          Text(node.label),
-          const SizedBox(width: 4),
-          switch (node) {
-            AssetNodeModel(asset: final asset) =>
-              StatusIcon(status: asset.status),
-            LocationNodeModel() => const SizedBox(width: 0),
-          },
-        ],
-      ),
+        ),
+        switch (node) {
+          AssetNodeModel(asset: final asset) =>
+            AppIcon(name: asset.isComponent ? 'codepen' : 'cube', size: 22),
+          LocationNodeModel() => const AppIcon(name: 'location', size: 22),
+        },
+        const SizedBox(width: 4),
+        Text(node.label),
+        const SizedBox(width: 4),
+        switch (node) {
+          AssetNodeModel(asset: final asset) =>
+            StatusIcon(status: asset.status),
+          LocationNodeModel() => const SizedBox(width: 0),
+        },
+      ],
     );
   }
 }
@@ -216,5 +216,28 @@ class StatusIcon extends StatelessWidget {
           ),
         ),
     };
+  }
+}
+
+class VerticalLine extends StatelessWidget {
+  const VerticalLine({super.key, required this.level});
+
+  final int level;
+
+  @override
+  Widget build(BuildContext context) {
+    if (level == 0) return const SizedBox(width: 0);
+    return SizedBox(
+      width: 24.0,
+      height: 24.0,
+      child: Center(
+        child: Container(
+          width: 1,
+          height: 24,
+          alignment: Alignment.center,
+          color: Colors.grey[300],
+        ),
+      ),
+    );
   }
 }
