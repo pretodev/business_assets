@@ -19,3 +19,23 @@ abstract interface class DataConverter<E, D> {
     return entities.map((e) => converter.toData(e)).toList();
   }
 }
+
+extension EnumExtension<T extends Enum> on List<T> {
+  T fromString(String v) {
+    for (var value in this) {
+      if (value.name == v) {
+        return value;
+      }
+    }
+    throw ArgumentError('Invalid value: $v');
+  }
+
+  T? fromStringOrNull(String v) {
+    for (var value in this) {
+      if (value.name == v) {
+        return value;
+      }
+    }
+    return null;
+  }
+}

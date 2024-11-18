@@ -1,5 +1,7 @@
 import '../../domain/commom/uid.dart';
 import '../../domain/company_asset/company_asset.dart';
+import '../../domain/company_asset/sensor_types.dart';
+import '../../domain/company_asset/statuses.dart';
 import 'converter.dart';
 
 class TractianHttpCompanyAssetMapper
@@ -11,6 +13,8 @@ class TractianHttpCompanyAssetMapper
       'name': entity.name,
       'locationId': entity.locationId?.value,
       'parentId': entity.parentId?.value,
+      'status': entity.status?.name,
+      'sensor': entity.sensorType?.name,
     };
   }
 
@@ -24,6 +28,12 @@ class TractianHttpCompanyAssetMapper
           : null,
       parentId: data['parentId'] != null //
           ? Uid.fromString(data['parentId'])
+          : null,
+      status: data['status'] != null
+          ? Statuses.values.fromStringOrNull(data['status'])
+          : null,
+      sensorType: data['sensorType'] != null
+          ? SensorTypes.values.fromStringOrNull(data['sensorType'])
           : null,
     );
   }

@@ -1,0 +1,4 @@
+enum SensorTypes {
+  energy,
+  vibration,
+}

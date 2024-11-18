@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
   List<TreeNodeModel> _nodes = [];
 
   void _loadAssets() async {
-    final companyId = Uid.fromString('662fd0ee639069143a8fc387');
+    final companyId = Uid.fromString('662fd0fab3fd5656edb39af5');
     final assets = await assetRepository.fromCompany(companyId);
     final locations = await locationRepository.fromCompany(companyId);
     final assetNodes = assets.map(TreeNodeModel.fromCompanyAsset);

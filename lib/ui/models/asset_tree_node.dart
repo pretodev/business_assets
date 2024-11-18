@@ -11,10 +11,12 @@ sealed class TreeNodeModel {
   TreeNodeModel({
     required this.id,
     this.parentId,
+    this.label = '',
   });
 
   final Uid id;
   final Uid? parentId;
+  final String label;
 
   @override
   String toString() => 'AssetTreeNodeModel(id: $id)';
@@ -27,6 +29,7 @@ class AssetNodeModel extends TreeNodeModel {
       : super(
           id: asset.id,
           parentId: asset.parentId ?? asset.locationId,
+          label: asset.name,
         );
 }
 
@@ -37,5 +40,6 @@ class LocationNodeModel extends TreeNodeModel {
       : super(
           id: location.id,
           parentId: location.parentId,
+          label: location.name,
         );
 }
