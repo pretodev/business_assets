@@ -6,7 +6,6 @@ import '../../config/application.dart';
 import '../../domain/commom/uid.dart';
 import '../../domain/company_asset/company_asset_repository.dart';
 import '../../domain/company_location/company_location_repository.dart';
-import '../models/asset_tree_node.dart';
 import '../widgets/asset_tree.dart';
 
 class HomeScreen extends StatefulWidget {
