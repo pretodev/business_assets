@@ -6,6 +6,8 @@ import '../../config/application.dart';
 import '../../domain/commom/uid.dart';
 import '../../domain/company_asset/company_asset_repository.dart';
 import '../../domain/company_location/company_location_repository.dart';
+import '../models/asset_tree_node.dart';
+import '../widgets/asset_tree.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,19 +20,15 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
   late final assetRepository = instance<CompanyAssetRepository>();
   late final locationRepository = instance<CompanyLocationRepository>();
 
-  Map<Uid, List<TreeNode>> _treeNodes = {};
-
-  final Set<Uid> _expandedNodes = {};
-
-  final rootId = Uid.fromString('root');
+  List<AssetTreeNodeModel> _nodes = [];
 
   void _loadAssets() async {
-    final companyId = Uid.fromString('662fd100f990557384756e58');
+    final companyId = Uid.fromString('662fd0ee639069143a8fc387');
     final assets = await assetRepository.fromCompany(companyId);
     final locations = await locationRepository.fromCompany(companyId);
 
     final assetNodes = assets.map((asset) {
-      return TreeNode(
+      return AssetTreeNodeModel(
         id: asset.id,
         name: asset.name,
         parentId: asset.parentId ?? asset.locationId,
@@ -38,71 +36,16 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
     });
 
     final locationNodes = locations.map((location) {
-      return TreeNode(
+      return AssetTreeNodeModel(
         id: location.id,
         name: location.name,
         parentId: location.parentId,
       );
     });
 
-    final nodes = [...assetNodes, ...locationNodes];
-
-    _treeNodes.clear();
-    for (final node in nodes) {
-      final parentId = node.parentId ?? rootId;
-      if (!_treeNodes.containsKey(parentId)) {
-        _treeNodes[parentId] = [];
-      }
-      _treeNodes[parentId]?.add(node);
-    }
-    setState(() {});
-  }
-
-  bool nodeHasChildren(Uid id) {
-    return _treeNodes.containsKey(id) && (_treeNodes[id]?.isNotEmpty ?? false);
-  }
-
-  void _toggleExpansion(Uid nodeId) {
     setState(() {
-      if (_expandedNodes.contains(nodeId)) {
-        _expandedNodes.remove(nodeId);
-      } else {
-        _expandedNodes.add(nodeId);
-      }
+      _nodes = [...assetNodes, ...locationNodes];
     });
-  }
-
-  List<Widget> _buildTree(Uid parentId, int level) {
-    List<Widget> widgets = [];
-
-    final children = _treeNodes[parentId] ?? [];
-    for (final node in children) {
-      final isExpanded = _expandedNodes.contains(node.id);
-
-      widgets.add(
-        ListTile(
-          leading: nodeHasChildren(node.id)
-              ? IconButton(
-                  icon: Icon(
-                    isExpanded ? Icons.expand_less : Icons.expand_more,
-                  ),
-                  onPressed: () => _toggleExpansion(node.id),
-                )
-              : SizedBox(width: 24),
-          title: Text(node.name),
-          contentPadding: EdgeInsets.only(left: level * 16.0),
-          onTap: () {
-            // Você pode adicionar ações ao tocar no item
-          },
-        ),
-      );
-
-      if (isExpanded) {
-        widgets.addAll(_buildTree(node.id, level + 1));
-      }
-    }
-
-    return widgets;
   }
 
   @override
@@ -118,26 +61,9 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
         title: const Text('Assets'),
         centerTitle: true,
       ),
-      body: _treeNodes.isEmpty
+      body: _nodes.isEmpty
           ? Center(child: CircularProgressIndicator())
-          : ListView(
-              children: _buildTree(rootId, 0),
-            ),
+          : AssetTree(nodes: _nodes),
     );
   }
-}
-
-class TreeNode {
-  final Uid id;
-  final Uid? parentId;
-  final String name;
-
-  TreeNode({
-    required this.id,
-    required this.name,
-    this.parentId,
-  });
-
-  @override
-  String toString() => 'TreeNode(id: $id, name: $name)';
 }
