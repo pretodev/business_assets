@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../styles/styles.dart';
+
 class SwitchButton extends StatefulWidget {
   const SwitchButton({
     super.key,
@@ -9,7 +11,7 @@ class SwitchButton extends StatefulWidget {
   });
 
   final String label;
-  final Widget icon;
+  final IconData icon;
   final ValueChanged<bool> onChanged;
 
   @override
@@ -31,24 +33,39 @@ class _SwitchButtonState extends State<SwitchButton> {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: _actived ? Theme.of(context).primaryColor : Colors.transparent,
+          color: _actived ? context.appColors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(4),
           border: Border.all(
-            color: _actived ? Theme.of(context).primaryColor : Colors.black12,
+            color: _actived ? Colors.transparent : context.appColors.border,
           ),
         ),
         child: widget.label != ''
             ? Row(
                 children: [
-                  widget.icon,
+                  Icon(
+                    widget.icon,
+                    color: _actived
+                        ? context.appColors.textOnPrimary
+                        : context.appColors.textSecondary,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     widget.label,
-                    style: const TextStyle(color: Colors.black54),
+                    style: context.appTextStyles.bodyMedium.copyWith(
+                      color: _actived
+                          ? context.appColors.textOnPrimary
+                          : context.appColors.textSecondary,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               )
-            : widget.icon,
+            : Icon(
+                widget.icon,
+                color: _actived
+                    ? context.appColors.textOnPrimary
+                    : context.appColors.textSecondary,
+              ),
       ),
     );
   }

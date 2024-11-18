@@ -199,20 +199,18 @@ class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
             children: [
               SwitchButton(
                 label: 'Sensor de Energia',
-                icon: const Icon(Icons.bolt_outlined),
+                icon: Icons.bolt_outlined,
                 onChanged: toggleEnergySensorFilter,
               ),
               const SizedBox(width: 8),
               SwitchButton(
                 label: 'Crítico',
-                icon: Icon(
-                  Icons.error_outline_sharp,
-                ),
+                icon: Icons.error_outline_sharp,
                 onChanged: toggleAlertStatusFilter,
               ),
               const Spacer(),
               SwitchButton(
-                icon: const Icon(Icons.expand_sharp),
+                icon: Icons.expand_sharp,
                 onChanged: toggleExpandAll,
               ),
             ],
