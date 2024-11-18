@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../config/application.dart';
-import '../../domain/commom/uid.dart';
+import '../../domain/company/company.dart';
 import '../../domain/company_asset/company_asset_repository.dart';
 import '../../domain/company_asset/sensor_types.dart';
 import '../../domain/company_asset/statuses.dart';
@@ -9,14 +9,31 @@ import '../../domain/company_location/company_location_repository.dart';
 import '../widgets/asset_tree.dart';
 import '../widgets/switch_button.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class AssetsScreen extends StatefulWidget {
+  static Future<void> push(
+    BuildContext context, {
+    required Company company,
+    bool replace = false,
+  }) {
+    final route = MaterialPageRoute<void>(
+      builder: (context) => AssetsScreen(
+        company: company,
+      ),
+    );
+    return replace
+        ? Navigator.pushReplacement(context, route)
+        : Navigator.push(context, route);
+  }
+
+  const AssetsScreen({super.key, required this.company});
+
+  final Company company;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<AssetsScreen> createState() => _AssetsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
+class _AssetsScreenState extends State<AssetsScreen> with ServiceLocatorMixin {
   late final assetRepository = instance<CompanyAssetRepository>();
   late final locationRepository = instance<CompanyLocationRepository>();
 
@@ -82,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
   }
 
   void _loadAssets() async {
-    final companyId = Uid.fromString('662fd0fab3fd5656edb39af5');
+    final companyId = widget.company.id;
     final assets = await assetRepository.fromCompany(companyId);
     final locations = await locationRepository.fromCompany(companyId);
     _controller.load(
@@ -100,8 +117,8 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
     _searchController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
