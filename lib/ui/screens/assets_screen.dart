@@ -58,9 +58,19 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
   }
 
   void _toggleAlertStatusFilter(bool value) {
-    value
-        ? _controller.addFilter(_filterOnlyAlertStatus)
-        : _controller.removeFilter(_filterOnlyAlertStatus);
+    if (value) {
+      _controller.addFilter(_filterOnlyAlertStatus);
+    } else {
+      _controller.removeFilter(_filterOnlyAlertStatus);
+    }
+  }
+
+  void _toogleExpandAll(bool value) {
+    if (value) {
+      _controller.expandAll();
+    } else {
+      _controller.collapseAll();
+    }
   }
 
   void _toggleNameFilter() {
@@ -72,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
   }
 
   void _loadAssets() async {
-    final companyId = Uid.fromString('662fd0ee639069143a8fc387');
+    final companyId = Uid.fromString('662fd0fab3fd5656edb39af5');
     final assets = await assetRepository.fromCompany(companyId);
     final locations = await locationRepository.fromCompany(companyId);
     _controller.load(
@@ -105,50 +115,14 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
             centerTitle: true,
             pinned: true,
           ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      SwitchButton(
-                        label: 'Sensor de Energia',
-                        icon: const Icon(Icons.bolt_outlined),
-                        onChanged: _toggleEnergySensorFilter,
-                      ),
-                      const SizedBox(width: 8),
-                      SwitchButton(
-                        label: 'Crítico',
-                        icon: const Icon(Icons.error_outline_sharp),
-                        onChanged: _toggleAlertStatusFilter,
-                      ),
-                      const Spacer(),
-                      SwitchButton(
-                        icon: const Icon(Icons.expand_sharp),
-                        onChanged: (value) {
-                          if (value) {
-                            _controller.expandAll();
-                          } else {
-                            _controller.collapseAll();
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+          SliverPersistentHeader(
+            floating: false,
+            pinned: false,
+            delegate: _FilterHeaderDelegate(
+              searchController: _searchController,
+              toggleEnergySensorFilter: _toggleEnergySensorFilter,
+              toggleAlertStatusFilter: _toggleAlertStatusFilter,
+              toggleExpandAll: _toogleExpandAll,
             ),
           ),
           AssetTree(
@@ -158,4 +132,76 @@ class _HomeScreenState extends State<HomeScreen> with ServiceLocatorMixin {
       ),
     );
   }
+}
+
+class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final TextEditingController searchController;
+  final ValueChanged<bool> toggleEnergySensorFilter;
+  final ValueChanged<bool> toggleAlertStatusFilter;
+  final ValueChanged<bool> toggleExpandAll;
+
+  _FilterHeaderDelegate({
+    required this.searchController,
+    required this.toggleEnergySensorFilter,
+    required this.toggleAlertStatusFilter,
+    required this.toggleExpandAll,
+  });
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(
+      height: maxExtent,
+      padding: const EdgeInsets.all(16.0),
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        children: [
+          TextField(
+            controller: searchController,
+            decoration: InputDecoration(
+              hintText: 'Search',
+              prefixIcon: const Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              SwitchButton(
+                label: 'Sensor de Energia',
+                icon: const Icon(Icons.bolt_outlined),
+                onChanged: toggleEnergySensorFilter,
+              ),
+              const SizedBox(width: 8),
+              SwitchButton(
+                label: 'Crítico',
+                icon: const Icon(Icons.error_outline_sharp),
+                onChanged: toggleAlertStatusFilter,
+              ),
+              const Spacer(),
+              SwitchButton(
+                icon: const Icon(Icons.expand_sharp),
+                onChanged: toggleExpandAll,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 140.0;
+
+  @override
+  double get minExtent => 140.0;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
+      false;
 }
