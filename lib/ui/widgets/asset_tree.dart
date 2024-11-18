@@ -114,8 +114,8 @@ class _AssetTreeState extends State<AssetTree> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: _buildTree(rootId, 0),
+    return SliverList(
+      delegate: SliverChildListDelegate(_buildTree(rootId, 0)),
     );
   }
 }
