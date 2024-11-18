@@ -284,7 +284,7 @@ class AssetTreeTile extends StatelessWidget {
           LocationNodeModel() => const AppIcon(name: 'location', size: 22),
         },
         const SizedBox(width: 4),
-        Text(node.label),
+        Flexible(child: Text(node.label)),
         const SizedBox(width: 4),
         switch (node) {
           AssetNodeModel(asset: final asset) =>
