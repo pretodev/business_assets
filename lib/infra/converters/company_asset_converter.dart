@@ -9,8 +9,8 @@ class TractianHttpCompanyAssetMapper
     return {
       'id': entity.id.value,
       'name': entity.name,
-      'location_id': entity.locationId?.value,
-      'parent_id': entity.parentId?.value,
+      'locationId': entity.locationId?.value,
+      'parentId': entity.parentId?.value,
     };
   }
 
@@ -19,11 +19,11 @@ class TractianHttpCompanyAssetMapper
     return CompanyAsset(
       id: Uid.fromString(data['id']),
       name: data['name'],
-      locationId: data['location_id'] != null
-          ? Uid.fromString(data['location_id'])
+      locationId: data['locationId'] != null
+          ? Uid.fromString(data['locationId'])
           : null,
-      parentId: data['parent_id'] != null //
-          ? Uid.fromString(data['parent_id'])
+      parentId: data['parentId'] != null //
+          ? Uid.fromString(data['parentId'])
           : null,
     );
   }

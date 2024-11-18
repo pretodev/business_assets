@@ -25,16 +25,16 @@ void main() {
       expect(result, isA<JsonData>());
       expect(result['id'], '123');
       expect(result['name'], 'Test Asset');
-      expect(result['location_id'], '456');
-      expect(result['parent_id'], '789');
+      expect(result['locationId'], '456');
+      expect(result['parentId'], '789');
     });
 
     test('toEntity should convert JsonData to CompanyAsset', () {
       final jsonData = {
         'id': '123',
         'name': 'Test Asset',
-        'location_id': '456',
-        'parent_id': '789',
+        'locationId': '456',
+        'parentId': '789',
       };
 
       final result = mapper.toEntity(jsonData);
@@ -46,7 +46,7 @@ void main() {
       expect(result.parentId?.value, '789');
     });
 
-    test('toEntity should handle null location_id and parent_id', () {
+    test('toEntity should handle null locationId and parentId', () {
       final jsonData = {
         'id': '123',
         'name': 'Test Asset',

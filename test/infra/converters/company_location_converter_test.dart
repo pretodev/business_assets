@@ -24,14 +24,14 @@ void main() {
       expect(result, isA<JsonData>());
       expect(result['id'], '456');
       expect(result['name'], 'Test Location');
-      expect(result['parent_id'], '123');
+      expect(result['parentId'], '123');
     });
 
     test('toEntity should convert JsonData to CompanyLocation', () {
       final jsonData = {
         'id': '456',
         'name': 'Test Location',
-        'parent_id': '123',
+        'parentId': '123',
       };
 
       final result = converter.toEntity(jsonData);

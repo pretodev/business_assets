@@ -9,7 +9,7 @@ class TractianHttpCompanyLocationConverter
     return {
       'id': entity.id.value,
       'name': entity.name,
-      'parent_id': entity.parentId?.value,
+      'parentId': entity.parentId?.value,
     };
   }
 
@@ -18,8 +18,8 @@ class TractianHttpCompanyLocationConverter
     return CompanyLocation(
       id: Uid.fromString(data['id']),
       name: data['name'],
-      parentId: data['parent_id'] != null //
-          ? Uid.fromString(data['parent_id'])
+      parentId: data['parentId'] != null //
+          ? Uid.fromString(data['parentId'])
           : null,
     );
   }
