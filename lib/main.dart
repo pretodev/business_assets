@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'config/application.dart';
 import 'config/tractan/tractan_http_client.dart';
@@ -38,6 +39,8 @@ class BusinessAssetsApp extends StatelessWidget {
       home: const CompaniesScreen(),
       theme: AppStyle().theme,
       title: 'Tractian: Business Assets',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }

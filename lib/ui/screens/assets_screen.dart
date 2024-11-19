@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../config/application.dart';
 import '../../domain/company/company.dart';
@@ -181,6 +182,7 @@ class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
+    final loc = AppLocalizations.of(context)!;
     return Container(
       height: maxExtent,
       padding: const EdgeInsets.all(16.0),
@@ -190,7 +192,7 @@ class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
           TextField(
             controller: searchController,
             decoration: InputDecoration(
-              hintText: 'Buscar Ativo ou Local',
+              hintText: loc.searchHint,
               prefixIcon: const Icon(Icons.search),
             ),
           ),
@@ -198,13 +200,13 @@ class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
           Row(
             children: [
               SwitchButton(
-                label: 'Sensor de Energia',
+                label: loc.energySensor,
                 icon: Icons.bolt_outlined,
                 onChanged: toggleEnergySensorFilter,
               ),
               const SizedBox(width: 8),
               SwitchButton(
-                label: 'Crítico',
+                label: loc.critical,
                 icon: Icons.error_outline_sharp,
                 onChanged: toggleAlertStatusFilter,
               ),
