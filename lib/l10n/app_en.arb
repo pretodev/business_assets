@@ -3,5 +3,9 @@
   "searchHint": "Search Asset or Location",
   "energySensor": "Energy Sensor",
   "critical": "Critical",
-  "expandAll": "Expand All"
+  "expandAll": "Expand All",
+  "language": "Language",
+  "spanish": "Spanish",
+  "english": "English",
+  "portuguese": "Portuguese"
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../config/application.dart';
@@ -39,6 +40,12 @@ class _CompaniesScreenState extends State<CompaniesScreen>
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context);
+    final languages = [
+      lang?.spanish,
+      lang?.english,
+      lang?.portuguese,
+    ];
     return Scaffold(
       appBar: AppBar(
         title: SvgPicture.asset('assets/images/logo.svg'),
@@ -62,6 +69,34 @@ class _CompaniesScreenState extends State<CompaniesScreen>
               onClicked: () => AssetsScreen.push(context, company: company),
             );
           },
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('${lang?.language}: '),
+            DropdownButton<String>(
+              items: languages
+                  .map(
+                    (value) => DropdownMenuItem(
+                      value: value,
+                      child: Text(value ?? ''),
+                    ),
+                  )
+                  .toList(),
+              value: AppLocalizations.of(context)!.portuguese,
+              onChanged: (value) {},
+              dropdownColor: context.appColors.scaffoldBackground,
+              elevation: 0,
+              underline: SizedBox(),
+              style: context.appTextStyles.bodyMedium.copyWith(
+                fontWeight: FontWeight.bold,
+                color: context.appColors.secondary,
+              ),
+            ),
+          ],
         ),
       ),
     );

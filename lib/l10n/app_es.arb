@@ -3,5 +3,9 @@
   "searchHint": "Buscar Activo o Ubicación",
   "energySensor": "Sensor de Energía",
   "critical": "Crítico",
-  "expandAll": "Expandir Todo"
+  "expandAll": "Expandir Todo",
+  "language": "Idioma",
+  "spanish": "Español",
+  "english": "Inglés",
+  "portuguese": "Portugués"
 }

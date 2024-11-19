@@ -46,6 +46,15 @@ class AppStyle {
           labelStyle: text.bodyMedium,
           prefixIconColor: colors.textTertiary,
         ),
+        dropdownMenuTheme: DropdownMenuThemeData(
+          inputDecorationTheme: InputDecorationTheme(
+            border: InputBorder.none,
+          ),
+          textStyle: text.bodyMedium.copyWith(
+            fontWeight: FontWeight.bold,
+            color: colors.primary,
+          ),
+        ),
         extensions: [
           colors,
           text,
