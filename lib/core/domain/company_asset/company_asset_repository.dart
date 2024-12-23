@@ -1,4 +1,4 @@
-import '../commom/uid.dart';
+import '../uid.dart';
 import 'company_asset.dart';
 
 abstract interface class CompanyAssetRepository {

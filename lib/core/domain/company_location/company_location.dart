@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../commom/uid.dart';
+import '../uid.dart';
 
 class CompanyLocation extends Equatable {
   final Uid id;

@@ -1,6 +1,6 @@
-import '../../core/domain/commom/uid.dart';
 import '../../core/domain/company_asset/company_asset.dart';
 import '../../core/domain/company_asset/company_asset_repository.dart';
+import '../../core/domain/uid.dart';
 import '../services/http/tractian_http_client.dart';
 
 class TractianCompanyAssetRepository implements CompanyAssetRepository {

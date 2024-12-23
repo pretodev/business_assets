@@ -1,6 +1,6 @@
-import '../../core/domain/commom/uid.dart';
 import '../../core/domain/company_location/company_location.dart';
 import '../../core/domain/company_location/company_location_repository.dart';
+import '../../core/domain/uid.dart';
 import '../services/http/tractian_http_client.dart';
 
 class TractianCompanyLocationRepository implements CompanyLocationRepository {

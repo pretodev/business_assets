@@ -1,4 +1,4 @@
-import 'package:business_assets/core/domain/commom/uid.dart';
+import 'package:business_assets/core/domain/uid.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,9 +1,9 @@
-import 'package:business_assets/core/domain/commom/uid.dart';
 import 'package:business_assets/core/domain/company/company.dart';
 import 'package:business_assets/core/domain/company_asset/company_asset.dart';
 import 'package:business_assets/core/domain/company_asset/sensor_types.dart';
 import 'package:business_assets/core/domain/company_asset/statuses.dart';
 import 'package:business_assets/core/domain/company_location/company_location.dart';
+import 'package:business_assets/core/domain/uid.dart';
 import 'package:business_assets/infra/services/http/tractian_http_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 
