@@ -46,6 +46,7 @@ class _CompaniesScreenState extends State<CompaniesScreen>
       lang?.english,
       lang?.portuguese,
     ];
+    final Styles(:colors, :text) = context.styles;
     return Scaffold(
       appBar: AppBar(
         title: SvgPicture.asset('assets/images/logo.svg'),
@@ -88,12 +89,12 @@ class _CompaniesScreenState extends State<CompaniesScreen>
                   .toList(),
               value: AppLocalizations.of(context)!.portuguese,
               onChanged: (value) {},
-              dropdownColor: context.appColors.scaffoldBackground,
+              dropdownColor: colors.scaffoldBackground,
               elevation: 0,
               underline: SizedBox(),
-              style: context.appTextStyles.bodyMedium.copyWith(
+              style: text.bodyMedium.copyWith(
                 fontWeight: FontWeight.bold,
-                color: context.appColors.secondary,
+                color: colors.secondary,
               ),
             ),
           ],
@@ -115,6 +116,7 @@ class CompanyTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Styles(:colors, :text) = context.styles;
     return Padding(
       padding: EdgeInsets.only(
         bottom: 40.0,
@@ -123,7 +125,7 @@ class CompanyTile extends StatelessWidget {
         onTap: onClicked,
         child: Container(
           decoration: BoxDecoration(
-            color: context.appColors.primary,
+            color: colors.primary,
             borderRadius: BorderRadius.circular(5.0),
           ),
           padding: EdgeInsets.all(32.0),
@@ -134,8 +136,8 @@ class CompanyTile extends StatelessWidget {
               SizedBox(width: 16.0),
               Text(
                 company.name,
-                style: context.appTextStyles.titleSmall.copyWith(
-                  color: context.appColors.textOnPrimary,
+                style: text.titleSmall.copyWith(
+                  color: colors.textOnPrimary,
                 ),
               ),
             ],

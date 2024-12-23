@@ -10,7 +10,7 @@ import '../infra/repositories/tractian_company_repository.dart';
 import '../infra/services/http/tractian_http_client.dart';
 import 'tractian/tractian_environment.dart';
 
-List<SingleChildWidget> get dependencies {
+List<SingleChildWidget> get providers {
   return [
     Provider.value(
       value: TractianEnvironment(),

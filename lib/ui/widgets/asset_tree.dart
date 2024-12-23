@@ -268,6 +268,7 @@ class AssetTreeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Styles(:colors, :text) = context.styles;
     return Row(
       children: [
         Row(
@@ -293,8 +294,8 @@ class AssetTreeTile extends StatelessWidget {
         Flexible(
           child: Text(
             node.label,
-            style: context.appTextStyles.bodyMedium.copyWith(
-              color: context.appColors.textPrimary,
+            style: text.bodyMedium.copyWith(
+              color: colors.textPrimary,
             ),
           ),
         ),

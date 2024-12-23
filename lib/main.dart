@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
+import 'config/dependencies.dart';
 import 'config/firebase/firebase_setup.dart';
 import 'config/setup.dart';
 import 'ui/screens/companies_screen.dart';
 import 'ui/styles/styles.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  setup([
+  await setup([
     FirebaseSetup(),
   ]);
+
+  runApp(
+    MultiProvider(
+      providers: providers,
+      child: const BusinessAssetsApp(),
+    ),
+  );
 }
 
 class BusinessAssetsApp extends StatelessWidget {
@@ -21,7 +30,7 @@ class BusinessAssetsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const CompaniesScreen(),
-      theme: AppStyle().theme,
+      theme: Styles.theme,
       title: 'Tractian: Business Assets',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

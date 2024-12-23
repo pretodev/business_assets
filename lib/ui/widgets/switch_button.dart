@@ -23,6 +23,7 @@ class _SwitchButtonState extends State<SwitchButton> {
 
   @override
   Widget build(BuildContext context) {
+    final Styles(:colors, :text) = context.styles;
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -33,10 +34,10 @@ class _SwitchButtonState extends State<SwitchButton> {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: _actived ? context.appColors.primary : Colors.transparent,
+          color: _actived ? colors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(4),
           border: Border.all(
-            color: _actived ? Colors.transparent : context.appColors.border,
+            color: _actived ? Colors.transparent : colors.border,
           ),
         ),
         child: widget.label != ''
@@ -44,17 +45,16 @@ class _SwitchButtonState extends State<SwitchButton> {
                 children: [
                   Icon(
                     widget.icon,
-                    color: _actived
-                        ? context.appColors.textOnPrimary
-                        : context.appColors.textSecondary,
+                    color:
+                        _actived ? colors.textOnPrimary : colors.textSecondary,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     widget.label,
-                    style: context.appTextStyles.bodyMedium.copyWith(
+                    style: text.bodyMedium.copyWith(
                       color: _actived
-                          ? context.appColors.textOnPrimary
-                          : context.appColors.textSecondary,
+                          ? colors.textOnPrimary
+                          : colors.textSecondary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -62,9 +62,7 @@ class _SwitchButtonState extends State<SwitchButton> {
               )
             : Icon(
                 widget.icon,
-                color: _actived
-                    ? context.appColors.textOnPrimary
-                    : context.appColors.textSecondary,
+                color: _actived ? colors.textOnPrimary : colors.textSecondary,
               ),
       ),
     );

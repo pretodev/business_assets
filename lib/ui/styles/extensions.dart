@@ -5,11 +5,7 @@ extension ColorFilterOnColor on Color {
 }
 
 extension AppStyleExtension on BuildContext {
-  AppColors get appColors {
-    return Theme.of(this).extension<AppColors>()!;
-  }
-
-  AppTextStyles get appTextStyles {
-    return Theme.of(this).extension<AppTextStyles>()!;
+  Styles get styles {
+    return Theme.of(this).extension<Styles>()!;
   }
 }
