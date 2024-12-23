@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/commom/uid.dart';
-import '../../domain/company_asset/company_asset.dart';
-import '../../domain/company_asset/statuses.dart';
-import '../../domain/company_location/company_location.dart';
+import '../../core/domain/commom/uid.dart';
+import '../../core/domain/company_asset/company_asset.dart';
+import '../../core/domain/company_asset/statuses.dart';
+import '../../core/domain/company_location/company_location.dart';
 import '../styles/styles.dart';
 import 'app_icon.dart';
 

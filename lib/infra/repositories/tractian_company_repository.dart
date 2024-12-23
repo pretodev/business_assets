@@ -1,8 +1,6 @@
-import '../../config/tractan/tractan_http_client.dart';
-import '../../domain/company/company.dart';
-import '../../domain/company/company_repository.dart';
-import '../converters/company_converter.dart';
-import '../converters/converter.dart';
+import '../../core/domain/company/company.dart';
+import '../../core/domain/company/company_repository.dart';
+import '../services/http/tractian_http_client.dart';
 
 class TractianCompanyRepository implements CompanyRepository {
   final TractanHttpClient _httpClient;
@@ -13,7 +11,7 @@ class TractianCompanyRepository implements CompanyRepository {
 
   @override
   Future<List<Company>> get all async {
-    final data = await _httpClient.get('/companies');
-    return DataConverter.entities(data, TractianHttpCompanyConverter());
+    final response = await _httpClient.get('/companies');
+    return response.companies;
   }
 }

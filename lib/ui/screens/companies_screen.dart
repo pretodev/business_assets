@@ -3,8 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../config/application.dart';
-import '../../domain/company/company.dart';
-import '../../domain/company/company_repository.dart';
+import '../../core/domain/company/company.dart';
+import '../../core/domain/company/company_repository.dart';
 import '../styles/styles.dart';
 import '../widgets/app_icon.dart';
 import 'assets_screen.dart';

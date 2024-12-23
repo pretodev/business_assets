@@ -1,9 +1,7 @@
-import '../../config/tractan/tractan_http_client.dart';
-import '../../domain/commom/uid.dart';
-import '../../domain/company_location/company_location.dart';
-import '../../domain/company_location/company_location_repository.dart';
-import '../converters/company_location_converter.dart';
-import '../converters/converter.dart';
+import '../../core/domain/commom/uid.dart';
+import '../../core/domain/company_location/company_location.dart';
+import '../../core/domain/company_location/company_location_repository.dart';
+import '../services/http/tractian_http_client.dart';
 
 class TractianCompanyLocationRepository implements CompanyLocationRepository {
   final TractanHttpClient _httpClient;
@@ -14,7 +12,7 @@ class TractianCompanyLocationRepository implements CompanyLocationRepository {
 
   @override
   Future<List<CompanyLocation>> fromCompany(Uid companyId) async {
-    final data = await _httpClient.get('/companies/$companyId/locations');
-    return DataConverter.entities(data, TractianHttpCompanyLocationConverter());
+    final response = await _httpClient.get('/companies/$companyId/locations');
+    return response.companyLocations;
   }
 }

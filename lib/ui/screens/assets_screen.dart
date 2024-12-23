@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../config/application.dart';
-import '../../domain/company/company.dart';
-import '../../domain/company_asset/company_asset_repository.dart';
-import '../../domain/company_asset/sensor_types.dart';
-import '../../domain/company_asset/statuses.dart';
-import '../../domain/company_location/company_location_repository.dart';
+import '../../core/domain/company/company.dart';
+import '../../core/domain/company_asset/company_asset_repository.dart';
+import '../../core/domain/company_asset/sensor_types.dart';
+import '../../core/domain/company_asset/statuses.dart';
+import '../../core/domain/company_location/company_location_repository.dart';
 import '../widgets/asset_tree.dart';
 import '../widgets/switch_button.dart';
 

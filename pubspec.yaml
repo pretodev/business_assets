@@ -22,6 +22,7 @@ dependencies:
   auto_injector: ^2.0.5
   dio: ^5.7.0
   flutter_svg: ^2.0.14
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
