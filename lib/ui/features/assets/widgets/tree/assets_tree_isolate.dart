@@ -2,6 +2,7 @@ import 'dart:isolate';
 
 import '../../../../../core/domain/company_asset/company_asset.dart';
 import '../../../../../core/domain/company_location/company_location.dart';
+import '../../../../../core/domain/uid.dart';
 import 'assets_tree_state.dart';
 
 final class AssetsTreeIsolateMessage {
@@ -25,6 +26,32 @@ final class AssetsTreeIsolateMessage {
             'locations': locations,
           },
         );
+
+  AssetsTreeIsolateMessage.expand({
+    required SendPort sendPort,
+    required AssetsTreeState state,
+    required Uid nodeId,
+  }) : this._(
+          sendPort: sendPort,
+          payload: {
+            'type': 'expand',
+            'state': state,
+            'nodeId': nodeId,
+          },
+        );
+
+  AssetsTreeIsolateMessage.collapsed({
+    required SendPort sendPort,
+    required AssetsTreeState state,
+    required Uid nodeId,
+  }) : this._(
+          sendPort: sendPort,
+          payload: {
+            'type': 'collapsed',
+            'state': state,
+            'nodeId': nodeId,
+          },
+        );
 }
 
 abstract class AssetsTreeIsolate {
@@ -40,6 +67,22 @@ abstract class AssetsTreeIsolate {
             locations: payload['locations'],
           );
           sendPort.send(state);
+          break;
+        case 'expand':
+          final state = payload['state'] as AssetsTreeState;
+          final nodeId = payload['nodeId'] as Uid;
+          final newState = state.copyWith(
+            expandedNodes: state.expandedNodes..add(nodeId),
+          );
+          sendPort.send(newState);
+          break;
+        case 'collapsed':
+          final state = payload['state'] as AssetsTreeState;
+          final nodeId = payload['nodeId'] as Uid;
+          final newState = state.copyWith(
+            expandedNodes: state.expandedNodes..remove(nodeId),
+          );
+          sendPort.send(newState);
           break;
       }
     });

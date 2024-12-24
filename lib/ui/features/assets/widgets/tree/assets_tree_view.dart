@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/domain/company_asset/company_asset.dart';
 import '../../../../../core/domain/company_location/company_location.dart';
 import 'assets_tree_isolate.dart';
+import 'assets_tree_node_model.dart';
 import 'assets_tree_state.dart';
 import 'node/asset_node_view.dart';
 
@@ -52,6 +53,26 @@ class _AssetsTreeViewState extends State<AssetsTreeView> {
     );
   }
 
+  void _toggleExpansion(AssetsTreeNodeModel node) {
+    if (node.expanded) {
+      _sendPort?.send(
+        AssetsTreeIsolateMessage.collapsed(
+          sendPort: _listenner.sendPort,
+          state: _tree,
+          nodeId: node.resource.id,
+        ),
+      );
+    } else {
+      _sendPort?.send(
+        AssetsTreeIsolateMessage.expand(
+          sendPort: _listenner.sendPort,
+          state: _tree,
+          nodeId: node.resource.id,
+        ),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -77,9 +98,10 @@ class _AssetsTreeViewState extends State<AssetsTreeView> {
     }
     return SliverList.builder(
       itemBuilder: (context, index) {
+        final node = _tree.visibleNodes[index];
         return AssetNodeView(
-          node: _tree.visibleNodes[index],
-          toggleExpansion: (uid) {},
+          node: node,
+          toggleExpansion: () => _toggleExpansion(node),
         );
       },
       itemCount: _tree.visibleNodes.length,

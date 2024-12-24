@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/domain/company_asset/company_asset.dart';
-import '../../../../../../core/domain/uid.dart';
 import '../../../../../styles/styles.dart';
 import '../assets_tree_node_model.dart';
 import 'asset_node_icon.dart';
@@ -17,7 +16,7 @@ class AssetNodeView extends StatelessWidget {
 
   final AssetsTreeNodeModel node;
 
-  final void Function(Uid) toggleExpansion;
+  final VoidCallback toggleExpansion;
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +33,10 @@ class AssetNodeView extends StatelessWidget {
           visible: node.hasChildren,
           replacement: const SizedBox(width: 24),
           child: GestureDetector(
+            onTap: toggleExpansion,
             child: Icon(
-              node.expanded ? Icons.expand_less : Icons.chevron_right,
+              node.expanded ? Icons.expand_more : Icons.chevron_right,
             ),
-            onTap: () => toggleExpansion(node.resource.id),
           ),
         ),
         AssetNodeIcon(node: node),
