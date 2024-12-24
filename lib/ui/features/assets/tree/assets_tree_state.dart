@@ -10,7 +10,7 @@ typedef AssetTreeFilter = bool Function(AssetsTreeNodeModel asset);
 class AssetsTreeState extends Equatable {
   static final rootId = Uid.fromString('root');
 
-  /// Computa recursivamente todos os nós visíveis,
+  /// Recursively computes all visible nodes,
   /// respeitando a estrutura da árvore, filtros e nós expandidos.
   static List<AssetsTreeNodeModel> _computeVisibleNodes(
     Uid nodeId,
@@ -24,10 +24,10 @@ class AssetsTreeState extends Equatable {
     for (final node in _computeChildren(nodeId, nodesMap, filters)) {
       final expanded = expandedNodes.contains(node.resource.id);
 
-      // Adiciona o nó atual ao resultado com o nível de indentação e estado de expansão.
+      // Adds the current node to the result with the indentation level and expansion state.
       result.add(node.copyWith(level: level, expanded: expanded));
 
-      // Se o nó está expandido, acrescenta recursivamente os filhos dele.
+      // If the node is expanded, recursively add its children.
       if (expanded) {
         result.addAll(
           _computeVisibleNodes(
@@ -44,7 +44,7 @@ class AssetsTreeState extends Equatable {
     return result;
   }
 
-  /// Retorna os filhos de [nodeId], caso não sejam filtrados ou se tiverem subfilhos.
+  /// Returns the children of [nodeId], if they are not filtered or if they have subchildren.
   static List<AssetsTreeNodeModel> _computeChildren(
     Uid nodeId,
     Map<Uid, List<AssetsTreeNodeModel>> nodesMap,
@@ -54,12 +54,12 @@ class AssetsTreeState extends Equatable {
     final filteredChildren = <AssetsTreeNodeModel>[];
 
     for (final child in children) {
-      // Se o nó não foi filtrado, adiciona na lista;
+      // If the node was not filtered, add it to the list;
       // caso tenha sido filtrado, só adiciona se ele tiver filhos que passam no filtro.
       if (!_matchesAnyFilter(child, filters)) {
         filteredChildren.add(child);
       } else {
-        // Se o próprio nó é filtrado, mas possui filhos que não são, exibe o nó em prol dos filhos.
+        // If the node itself is filtered, but has children that are not, display the node for the sake of the children.
         if (_hasChildren(child.resource.id, nodesMap) &&
             _computeChildren(child.resource.id, nodesMap, filters).isNotEmpty) {
           filteredChildren.add(child);
@@ -90,13 +90,13 @@ class AssetsTreeState extends Equatable {
         (nodesMap[nodeId]?.isNotEmpty ?? false);
   }
 
-  /// Construtor de fábrica que constrói o estado inicial a partir de listas de
+  /// Factory constructor that builds the initial state from lists of
   /// [assets] e [locations].
   factory AssetsTreeState({
     required List<CompanyAsset> assets,
     required List<CompanyLocation> locations,
   }) {
-    // Se não há ativos nem locais, retorna um estado vazio.
+    // If there are no assets or locations, return an empty state.
     if (assets.isEmpty && locations.isEmpty) {
       return const AssetsTreeState._(
         expandedNodes: {},
@@ -106,26 +106,26 @@ class AssetsTreeState extends Equatable {
       );
     }
 
-    // Cria a lista de nós a partir de `assets` e `locations`.
+    // Creates the list of nodes from `assets` and `locations`.
     final nodes = [
       ...locations.map((loc) => AssetsTreeNodeModel(resource: loc)),
       ...assets.map((asset) => AssetsTreeNodeModel(resource: asset)),
     ];
 
-    // Monta o mapa de nós, agrupando nós-filhos pelos IDs de seus pais.
+    // Builds the node map, grouping child nodes by their parent IDs.
     final nodesMap = <Uid, List<AssetsTreeNodeModel>>{};
     for (final node in nodes) {
       final parentId = node.resource.parentId ?? rootId;
       nodesMap.putIfAbsent(parentId, () => []).add(node);
     }
 
-    // Nós expandidos por padrão (ex.: apenas a raiz).
+    // Nodes expanded by default (e.g., only the root).
     final expandedNodes = {rootId};
 
-    // Nenhum filtro por padrão.
+    // No filters by default.
     final filters = <AssetTreeFilter>[];
 
-    // Calcula a lista de nós visíveis (já levando em conta filtros e expansões).
+    // Calculates the list of visible nodes (already taking filters and expansions into account).
     final visibleNodes = _computeVisibleNodes(
       rootId,
       0,
@@ -142,7 +142,7 @@ class AssetsTreeState extends Equatable {
     );
   }
 
-  /// Construtor privado imutável, recebendo todos os campos já prontos.
+  /// Private immutable constructor, receiving all fields already prepared.
   const AssetsTreeState._({
     required this.expandedNodes,
     required this.filters,
@@ -150,19 +150,19 @@ class AssetsTreeState extends Equatable {
     required this.visibleNodes,
   }) : _nodesMap = nodesMap;
 
-  /// Nó(s) que estão expandidos na árvore.
+  /// Node(s) that are expanded in the tree.
   final Set<Uid> expandedNodes;
 
-  /// Lista de filtros para a árvore.
+  /// List of filters for the tree.
   final List<AssetTreeFilter> filters;
 
-  /// Lista de nós visíveis, calculada de acordo com `expandedNodes`, `filters` e `_nodesMap`.
+  /// List of visible nodes, calculated according to `expandedNodes`, `filters`, and `_nodesMap`.
   final List<AssetsTreeNodeModel> visibleNodes;
 
-  /// Mapa principal que agrupa cada nó pela chave de seu nó-pai.
+  /// Main map that groups each node by the key of its parent node.
   final Map<Uid, List<AssetsTreeNodeModel>> _nodesMap;
 
-  /// Retorna um novo estado com possíveis modificações.
+  /// Returns a new state with possible modifications.
   AssetsTreeState copyWith({
     Set<Uid>? expandedNodes,
     Map<Uid, List<AssetsTreeNodeModel>>? treeNodes,
@@ -172,7 +172,7 @@ class AssetsTreeState extends Equatable {
     final newNodesMap = treeNodes ?? _nodesMap;
     final newFilters = filters ?? this.filters;
 
-    // Sempre recalcula `visibleNodes` para manter a coerência do estado.
+    // Always recalculates `visibleNodes` to maintain state consistency.
     final newVisibleNodes = _computeVisibleNodes(
       rootId,
       0,
