@@ -1,10 +1,14 @@
 import 'package:equatable/equatable.dart';
 
+import '../commom/company_resource.dart';
 import '../uid.dart';
 
-class CompanyLocation extends Equatable {
+class CompanyLocation extends Equatable implements CompanyResource {
+  @override
   final Uid id;
+  @override
   final String name;
+  @override
   final Uid? parentId;
 
   const CompanyLocation({

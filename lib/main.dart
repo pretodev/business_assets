@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
-import 'config/dependencies.dart';
 import 'config/firebase/firebase_setup.dart';
+import 'config/service_locator/service_locator.dart';
+import 'config/service_locator/service_locator_provider.dart';
 import 'config/setup.dart';
 import 'ui/features/companies/companies_view_model.dart';
 import 'ui/features/companies/widgets/companies_screen.dart';
@@ -17,8 +17,8 @@ void main() async {
   ]);
 
   runApp(
-    MultiProvider(
-      providers: providers,
+    ServiceLocatorProvider(
+      serviceLocator: ServiceLocator(),
       child: const BusinessAssetsApp(),
     ),
   );
@@ -32,7 +32,7 @@ class BusinessAssetsApp extends StatelessWidget {
     return MaterialApp(
       home: CompaniesScreen(
         viewModel: CompaniesViewModel(
-          companyRepository: context.read(),
+          companyRepository: context.get(),
         ),
       ),
       theme: Styles.theme,

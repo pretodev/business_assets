@@ -1,14 +1,19 @@
 import 'package:equatable/equatable.dart';
 
+import '../commom/company_resource.dart';
 import '../uid.dart';
 import 'sensor_types.dart';
 import 'statuses.dart';
 
-class CompanyAsset extends Equatable {
+class CompanyAsset extends Equatable implements CompanyResource {
+  @override
   final Uid id;
+  @override
   final String name;
-  final Uid? locationId;
+  @override
   final Uid? parentId;
+
+  final Uid? locationId;
   final SensorTypes? sensorType;
   final Statuses? status;
 

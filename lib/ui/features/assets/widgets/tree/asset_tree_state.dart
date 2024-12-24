@@ -5,12 +5,12 @@ import '../../models/tree_node_model.dart';
 
 typedef AssetTreeFilter = bool Function(TreeNodeModel asset);
 
-class AssetTreeState extends Equatable {
+class AssetsTreeState extends Equatable {
   final Set<Uid> expandedNodes;
   final Map<Uid, List<TreeNodeModel>> treeNodes;
   final List<AssetTreeFilter> filters;
 
-  const AssetTreeState({
+  const AssetsTreeState({
     this.expandedNodes = const {},
     this.treeNodes = const {},
     this.filters = const [],
@@ -19,12 +19,12 @@ class AssetTreeState extends Equatable {
   @override
   List<Object?> get props => [expandedNodes, treeNodes, filters];
 
-  AssetTreeState copyWith({
+  AssetsTreeState copyWith({
     Set<Uid>? expandedNodes,
     Map<Uid, List<TreeNodeModel>>? treeNodes,
     List<AssetTreeFilter>? filters,
   }) {
-    return AssetTreeState(
+    return AssetsTreeState(
       expandedNodes: expandedNodes ?? this.expandedNodes,
       treeNodes: treeNodes ?? this.treeNodes,
       filters: filters ?? this.filters,

@@ -37,7 +37,6 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
       body: ListenableBuilder(
         listenable: widget.viewModel.loadCompanies,
         builder: (context, child) {
-          print('loadCompanies: ${widget.viewModel.loadCompanies.completed}');
           if (widget.viewModel.loadCompanies.completed) {
             return child!;
           }

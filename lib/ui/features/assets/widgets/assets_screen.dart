@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import '../../../../config/service_locator/service_locator_provider.dart';
 import '../../../../core/domain/company/company.dart';
 import '../../../../core/domain/company_asset/sensor_types.dart';
 import '../../../../core/domain/company_asset/statuses.dart';
 import '../assets_view_model.dart';
 import '../models/tree_node_model.dart';
+import '../tree/assets_tree_view.dart';
 import 'assets_filter_header_delegate.dart';
-import 'tree/asset_tree_view.dart';
 
 class AssetsScreen extends StatefulWidget {
   static Future<void> push(
@@ -18,8 +18,8 @@ class AssetsScreen extends StatefulWidget {
     final route = MaterialPageRoute<void>(
       builder: (context) {
         final viewModel = AssetsViewModel(
-          companyAssetRepository: context.read(),
-          companyLocationRepository: context.read(),
+          companyAssetRepository: context.get(),
+          companyLocationRepository: context.get(),
         );
         viewModel.loadActivities.execute(company.id);
         return AssetsScreen(viewModel: viewModel);
@@ -42,7 +42,7 @@ class AssetsScreen extends StatefulWidget {
 }
 
 class _AssetsScreenState extends State<AssetsScreen> {
-  final AssetTreeController _controller = AssetTreeController();
+  // final AssetTreeController _controller = AssetTreeController();
   final TextEditingController _searchController = TextEditingController();
 
   bool _filterByName(TreeNodeModel node) {
@@ -72,47 +72,47 @@ class _AssetsScreenState extends State<AssetsScreen> {
   }
 
   void _toggleEnergySensorFilter(bool value) {
-    if (value) {
-      _controller.addFilter(_filterOnlyEnergySensor);
-    } else {
-      _controller.removeFilter(_filterOnlyEnergySensor);
-    }
+    // if (value) {
+    //   _controller.addFilter(_filterOnlyEnergySensor);
+    // } else {
+    //   _controller.removeFilter(_filterOnlyEnergySensor);
+    // }
   }
 
   void _toggleAlertStatusFilter(bool value) {
-    if (value) {
-      _controller.addFilter(_filterOnlyAlertStatus);
-    } else {
-      _controller.removeFilter(_filterOnlyAlertStatus);
-    }
+    // if (value) {
+    //   _controller.addFilter(_filterOnlyAlertStatus);
+    // } else {
+    //   _controller.removeFilter(_filterOnlyAlertStatus);
+    // }
   }
 
   void _toogleExpandAll(bool value) {
-    if (value) {
-      _controller.expandAll();
-    } else {
-      _controller.collapseAll();
-    }
+    // if (value) {
+    //   _controller.expandAll();
+    // } else {
+    //   _controller.collapseAll();
+    // }
   }
 
   void _toggleNameFilter() {
-    if (_searchController.text.isNotEmpty) {
-      _controller.addFilter(_filterByName);
-    } else {
-      _controller.removeFilter(_filterByName);
-    }
+    // if (_searchController.text.isNotEmpty) {
+    //   _controller.addFilter(_filterByName);
+    // } else {
+    //   _controller.removeFilter(_filterByName);
+    // }
   }
 
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_toggleNameFilter);
+    // _searchController.addListener(_toggleNameFilter);
   }
 
   @override
   void dispose() {
     _searchController.dispose();
-    _controller.dispose();
+    // _controller.dispose();
     super.dispose();
   }
 
@@ -151,8 +151,9 @@ class _AssetsScreenState extends State<AssetsScreen> {
             child: ListenableBuilder(
               listenable: widget.viewModel,
               builder: (context, child) {
-                return AssetTreeView(
-                  controller: _controller,
+                return AssetsTreeView(
+                  assets: widget.viewModel.assets,
+                  locations: widget.viewModel.locations,
                 );
               },
             ),

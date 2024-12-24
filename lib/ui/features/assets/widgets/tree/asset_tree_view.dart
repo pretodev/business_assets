@@ -7,8 +7,8 @@ import '../../models/tree_node_model.dart';
 import '../asset_node_view.dart';
 import 'asset_tree_state.dart';
 
-class AssetTreeController extends ValueNotifier<AssetTreeState> {
-  AssetTreeController() : super(const AssetTreeState());
+class AssetTreeController extends ValueNotifier<AssetsTreeState> {
+  AssetTreeController() : super(const AssetsTreeState());
 
   final rootId = Uid.fromString('root');
 
