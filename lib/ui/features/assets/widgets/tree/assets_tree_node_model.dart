@@ -11,10 +11,12 @@ class AssetsTreeNodeModel extends Equatable {
     required this.resource,
     this.level = 0,
     this.expanded = false,
+    this.hasChildren = false,
   });
 
   final int level;
   final bool expanded;
+  final bool hasChildren;
 
   @override
   final stringify = true;

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../../core/domain/company_asset/company_asset.dart';
 import '../../../../../core/domain/company_location/company_location.dart';
 import '../../../../../core/domain/uid.dart';
-import '../asset_node_view.dart';
 import 'asset_tree_state.dart';
 import 'tree_node_model.dart';
 
@@ -133,22 +132,22 @@ class _AssetTreeViewState extends State<AssetTreeView> {
 
   List<Widget> _buildTree(Uid parentId, int level) {
     final List<Widget> widgets = [];
-    for (final node in _effectiveController.childrenOf(parentId)) {
-      final isExpanded = _effectiveController.isExpanded(node.id);
-      widgets.add(
-        AssetNodeView(
-          key: ValueKey(node.id.value),
-          node: node,
-          toggleExpansion: _effectiveController.toggleExpansion,
-          level: level,
-          hasChildren: _effectiveController.hasChildren(node.id),
-          isExpanded: isExpanded,
-        ),
-      );
-      if (isExpanded) {
-        widgets.addAll(_buildTree(node.id, level + 1));
-      }
-    }
+    // for (final node in _effectiveController.childrenOf(parentId)) {
+    //   final isExpanded = _effectiveController.isExpanded(node.id);
+    //   widgets.add(
+    //     AssetNodeView(
+    //       key: ValueKey(node.id.value),
+    //       node: node,
+    //       toggleExpansion: _effectiveController.toggleExpansion,
+    //       level: level,
+    //       hasChildren: _effectiveController.hasChildren(node.id),
+    //       isExpanded: isExpanded,
+    //     ),
+    //   );
+    //   if (isExpanded) {
+    //     widgets.addAll(_buildTree(node.id, level + 1));
+    //   }
+    // }
     return widgets;
   }
 

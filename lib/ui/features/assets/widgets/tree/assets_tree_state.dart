@@ -25,7 +25,14 @@ class AssetsTreeState extends Equatable {
       final expanded = expandedNodes.contains(node.resource.id);
 
       // Adds the current node to the result with the indentation level and expansion state.
-      result.add(node.copyWith(level: level, expanded: expanded));
+      result.add(
+        AssetsTreeNodeModel(
+          resource: node.resource,
+          level: level,
+          expanded: expanded,
+          hasChildren: _hasChildren(node.resource.id, nodesMap),
+        ),
+      );
 
       // If the node is expanded, recursively add its children.
       if (expanded) {

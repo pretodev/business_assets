@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/domain/company_asset/statuses.dart';
-import '../../../widgets/app_icon.dart';
+import '../../../../../../core/domain/company_asset/statuses.dart';
+import '../../../../../widgets/app_icon.dart';
 
-class StatusIcon extends StatelessWidget {
-  const StatusIcon({super.key, required this.status});
+class AssetStatusIcon extends StatelessWidget {
+  const AssetStatusIcon({super.key, required this.status});
 
   final Statuses? status;
   @override

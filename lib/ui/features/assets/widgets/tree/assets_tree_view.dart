@@ -6,6 +6,7 @@ import '../../../../../core/domain/company_asset/company_asset.dart';
 import '../../../../../core/domain/company_location/company_location.dart';
 import 'assets_tree_isolate.dart';
 import 'assets_tree_state.dart';
+import 'node/asset_node_view.dart';
 
 class AssetsTreeView extends StatefulWidget {
   const AssetsTreeView({
@@ -76,8 +77,9 @@ class _AssetsTreeViewState extends State<AssetsTreeView> {
     }
     return SliverList.builder(
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(_tree.visibleNodes[index].resource.name),
+        return AssetNodeView(
+          node: _tree.visibleNodes[index],
+          toggleExpansion: (uid) {},
         );
       },
       itemCount: _tree.visibleNodes.length,
