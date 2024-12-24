@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/domain/uid.dart';
-import '../../../../core/domain/company_asset/company_asset.dart';
-import '../../../../core/domain/company_location/company_location.dart';
-import 'models/assets_tree_node_model.dart';
+import '../../../../../../core/domain/uid.dart';
+import '../../../../../core/domain/company_asset/company_asset.dart';
+import '../../../../../core/domain/company_location/company_location.dart';
+import 'assets_tree_node_model.dart';
 
 typedef AssetTreeFilter = bool Function(AssetsTreeNodeModel asset);
 

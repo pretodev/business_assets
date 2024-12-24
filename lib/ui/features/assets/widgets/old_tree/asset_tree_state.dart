@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../../core/domain/uid.dart';
-import '../../models/tree_node_model.dart';
+import 'tree_node_model.dart';
 
 typedef AssetTreeFilter = bool Function(TreeNodeModel asset);
 

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/domain/uid.dart';
 import '../../../styles/styles.dart';
 import '../../../widgets/app_icon.dart';
-import '../models/tree_node_model.dart';
 import 'asset_status_icon.dart';
 import 'asset_tree_vertical_line.dart';
+import 'old_tree/tree_node_model.dart';
 
 class AssetNodeView extends StatelessWidget {
   const AssetNodeView({

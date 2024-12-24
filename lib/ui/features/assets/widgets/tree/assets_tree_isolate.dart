@@ -1,7 +1,7 @@
 import 'dart:isolate';
 
-import '../../../../core/domain/company_asset/company_asset.dart';
-import '../../../../core/domain/company_location/company_location.dart';
+import '../../../../../core/domain/company_asset/company_asset.dart';
+import '../../../../../core/domain/company_location/company_location.dart';
 import 'assets_tree_state.dart';
 
 final class AssetsTreeIsolateMessage {

@@ -5,9 +5,9 @@ import '../../../../core/domain/company/company.dart';
 import '../../../../core/domain/company_asset/sensor_types.dart';
 import '../../../../core/domain/company_asset/statuses.dart';
 import '../assets_view_model.dart';
-import '../models/tree_node_model.dart';
-import '../tree/assets_tree_view.dart';
 import 'assets_filter_header_delegate.dart';
+import 'old_tree/tree_node_model.dart';
+import 'tree/assets_tree_view.dart';
 
 class AssetsScreen extends StatefulWidget {
   static Future<void> push(

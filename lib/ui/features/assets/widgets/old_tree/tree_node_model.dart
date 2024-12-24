@@ -1,6 +1,6 @@
-import '../../../../core/domain/company_asset/company_asset.dart';
-import '../../../../core/domain/company_location/company_location.dart';
-import '../../../../core/domain/uid.dart';
+import '../../../../../core/domain/company_asset/company_asset.dart';
+import '../../../../../core/domain/company_location/company_location.dart';
+import '../../../../../core/domain/uid.dart';
 
 sealed class TreeNodeModel {
   factory TreeNodeModel.fromCompanyAsset(CompanyAsset asset) = AssetNodeModel;

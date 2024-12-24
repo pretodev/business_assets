@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../../widgets/app_icon.dart';
-import '../models/tree_node_model.dart';
+import 'old_tree/tree_node_model.dart';
 
 class NodeIcon extends StatelessWidget {
   const NodeIcon({super.key, required this.node});

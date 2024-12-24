@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../../../core/domain/company_asset/company_asset.dart';
 import '../../../../../core/domain/company_location/company_location.dart';
 import '../../../../../core/domain/uid.dart';
-import '../../models/tree_node_model.dart';
 import '../asset_node_view.dart';
 import 'asset_tree_state.dart';
+import 'tree_node_model.dart';
 
 class AssetTreeController extends ValueNotifier<AssetsTreeState> {
   AssetTreeController() : super(const AssetsTreeState());
