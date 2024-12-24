@@ -1,5 +1,6 @@
+import '../result.dart';
 import 'company.dart';
 
 abstract interface class CompanyRepository {
-  Future<List<Company>> get all;
+  AsyncResult<List<Company>> get all;
 }

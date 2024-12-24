@@ -1,6 +1,7 @@
+import '../result.dart';
 import '../uid.dart';
 import 'company_asset.dart';
 
 abstract interface class CompanyAssetRepository {
-  Future<List<CompanyAsset>> fromCompany(Uid companyId);
+  AsyncResult<List<CompanyAsset>> fromCompany(Uid companyId);
 }

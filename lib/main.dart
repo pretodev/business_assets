@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'config/dependencies.dart';
 import 'config/firebase/firebase_setup.dart';
 import 'config/setup.dart';
-import 'ui/screens/companies_screen.dart';
+import 'ui/features/companies/companies_view_model.dart';
+import 'ui/features/companies/widgets/companies_screen.dart';
 import 'ui/styles/styles.dart';
 
 void main() async {
@@ -29,7 +30,11 @@ class BusinessAssetsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const CompaniesScreen(),
+      home: CompaniesScreen(
+        viewModel: CompaniesViewModel(
+          companyRepository: context.read(),
+        ),
+      ),
       theme: Styles.theme,
       title: 'Tractian: Business Assets',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
