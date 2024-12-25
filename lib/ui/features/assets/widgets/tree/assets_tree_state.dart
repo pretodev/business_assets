@@ -3,9 +3,8 @@ import 'package:equatable/equatable.dart';
 import '../../../../../../core/domain/uid.dart';
 import '../../../../../core/domain/company_asset/company_asset.dart';
 import '../../../../../core/domain/company_location/company_location.dart';
+import 'assets_tree_filters.dart';
 import 'assets_tree_node_model.dart';
-
-typedef AssetTreeFilter = bool Function(AssetsTreeNodeModel asset);
 
 class AssetsTreeState extends Equatable {
   static final rootId = Uid.fromString('root');
@@ -17,12 +16,13 @@ class AssetsTreeState extends Equatable {
     int level,
     Set<Uid> expandedNodes,
     Map<Uid, List<AssetsTreeNodeModel>> nodesMap,
-    List<AssetTreeFilter> filters,
+    AssetsTreeFilters filters,
   ) {
     final result = <AssetsTreeNodeModel>[];
 
     for (final node in _computeChildren(nodeId, nodesMap, filters)) {
-      final expanded = expandedNodes.contains(node.resource.id);
+      final expanded =
+          expandedNodes.contains(node.resource.id) || node.expanded;
 
       // Adds the current node to the result with the indentation level and expansion state.
       result.add(
@@ -55,7 +55,7 @@ class AssetsTreeState extends Equatable {
   static List<AssetsTreeNodeModel> _computeChildren(
     Uid nodeId,
     Map<Uid, List<AssetsTreeNodeModel>> nodesMap,
-    List<AssetTreeFilter> filters,
+    AssetsTreeFilters filters,
   ) {
     final children = nodesMap[nodeId] ?? [];
     final filteredChildren = <AssetsTreeNodeModel>[];
@@ -63,7 +63,7 @@ class AssetsTreeState extends Equatable {
     for (final child in children) {
       // If the node was not filtered, add it to the list;
       // caso tenha sido filtrado, só adiciona se ele tiver filhos que passam no filtro.
-      if (!_matchesAnyFilter(child, filters)) {
+      if (!filters.matches(child)) {
         filteredChildren.add(child);
       } else {
         // If the node itself is filtered, but has children that are not, display the node for the sake of the children.
@@ -75,17 +75,6 @@ class AssetsTreeState extends Equatable {
     }
 
     return filteredChildren;
-  }
-
-  /// Verifica se [node] corresponde a algum filtro.
-  static bool _matchesAnyFilter(
-    AssetsTreeNodeModel node,
-    List<AssetTreeFilter> filters,
-  ) {
-    for (final filter in filters) {
-      if (filter(node)) return true;
-    }
-    return false;
   }
 
   /// Verifica se [nodeId] tem filhos no mapa.
@@ -102,14 +91,17 @@ class AssetsTreeState extends Equatable {
   factory AssetsTreeState({
     required List<CompanyAsset> assets,
     required List<CompanyLocation> locations,
+    AssetsTreeFilters? filters,
   }) {
+    final effectiveFilters = filters ?? AssetsTreeFilters.empty;
+
     // If there are no assets or locations, return an empty state.
     if (assets.isEmpty && locations.isEmpty) {
-      return const AssetsTreeState._(
-        expandedNodes: {},
-        filters: [],
+      return AssetsTreeState._(
         nodesMap: {},
         visibleNodes: [],
+        expandedNodes: {},
+        filters: effectiveFilters,
       );
     }
 
@@ -130,7 +122,6 @@ class AssetsTreeState extends Equatable {
     final expandedNodes = {rootId};
 
     // No filters by default.
-    final filters = <AssetTreeFilter>[];
 
     // Calculates the list of visible nodes (already taking filters and expansions into account).
     final visibleNodes = _computeVisibleNodes(
@@ -138,12 +129,12 @@ class AssetsTreeState extends Equatable {
       0,
       expandedNodes,
       nodesMap,
-      filters,
+      effectiveFilters,
     );
 
     return AssetsTreeState._(
       expandedNodes: expandedNodes,
-      filters: filters,
+      filters: effectiveFilters,
       nodesMap: nodesMap,
       visibleNodes: visibleNodes,
     );
@@ -161,7 +152,7 @@ class AssetsTreeState extends Equatable {
   final Set<Uid> expandedNodes;
 
   /// List of filters for the tree.
-  final List<AssetTreeFilter> filters;
+  final AssetsTreeFilters filters;
 
   /// List of visible nodes, calculated according to `expandedNodes`, `filters`, and `_nodesMap`.
   final List<AssetsTreeNodeModel> visibleNodes;
@@ -173,7 +164,7 @@ class AssetsTreeState extends Equatable {
   AssetsTreeState copyWith({
     Set<Uid>? expandedNodes,
     Map<Uid, List<AssetsTreeNodeModel>>? treeNodes,
-    List<AssetTreeFilter>? filters,
+    AssetsTreeFilters? filters,
   }) {
     final newExpandedNodes = expandedNodes ?? this.expandedNodes;
     final newNodesMap = treeNodes ?? _nodesMap;

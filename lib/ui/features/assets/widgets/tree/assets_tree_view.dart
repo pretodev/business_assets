@@ -3,7 +3,10 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/domain/company_asset/company_asset.dart';
+import '../../../../../core/domain/company_asset/sensor_types.dart';
+import '../../../../../core/domain/company_asset/statuses.dart';
 import '../../../../../core/domain/company_location/company_location.dart';
+import 'assets_tree_filters.dart';
 import 'assets_tree_isolate.dart';
 import 'assets_tree_node_model.dart';
 import 'assets_tree_state.dart';
@@ -20,16 +23,34 @@ class AssetsTreeView extends StatefulWidget {
   final List<CompanyAsset> assets;
 
   @override
-  State<AssetsTreeView> createState() => _AssetsTreeViewState();
+  State<AssetsTreeView> createState() => AssetsTreeViewState();
 }
 
-class _AssetsTreeViewState extends State<AssetsTreeView> {
+class AssetsTreeViewState extends State<AssetsTreeView> {
   Isolate? _isolate;
   SendPort? _sendPort;
   final _listenner = ReceivePort();
 
   bool _ready = false;
   AssetsTreeState _tree = AssetsTreeState(assets: [], locations: []);
+
+  void filterBy({
+    String? name,
+    Statuses? status,
+    SensorTypes? sensorType,
+  }) {
+    _sendPort?.send(
+      AssetsTreeIsolateMessage.refresh(
+        sendPort: _listenner.sendPort,
+        state: _tree,
+        filters: AssetsTreeFilters(
+          name: name,
+          status: status,
+          sensorType: sensorType,
+        ),
+      ),
+    );
+  }
 
   void _buildTree() async {
     final receivePort = ReceivePort();

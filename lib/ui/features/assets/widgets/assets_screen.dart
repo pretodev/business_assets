@@ -6,7 +6,6 @@ import '../../../../core/domain/company_asset/sensor_types.dart';
 import '../../../../core/domain/company_asset/statuses.dart';
 import '../assets_view_model.dart';
 import 'assets_filter_header_delegate.dart';
-import 'old_tree/tree_node_model.dart';
 import 'tree/assets_tree_view.dart';
 
 class AssetsScreen extends StatefulWidget {
@@ -42,49 +41,29 @@ class AssetsScreen extends StatefulWidget {
 }
 
 class _AssetsScreenState extends State<AssetsScreen> {
-  // final AssetTreeController _controller = AssetTreeController();
-  final TextEditingController _searchController = TextEditingController();
+  final _searchController = TextEditingController();
 
-  bool _filterByName(TreeNodeModel node) {
-    final name = switch (node) {
-      LocationNodeModel(location: final data) => data.name.toLowerCase(),
-      AssetNodeModel(asset: final data) => data.name.toLowerCase(),
-    };
-    return !name.contains(_searchController.text.toLowerCase());
-  }
+  final _assetsKey = GlobalKey<AssetsTreeViewState>();
 
-  bool _filterOnlyAlertStatus(TreeNodeModel node) {
-    return switch (node) {
-      AssetNodeModel(asset: final data) when data.isComponent =>
-        data.status != Statuses.alert,
-      AssetNodeModel() => true,
-      LocationNodeModel() => true,
-    };
-  }
-
-  bool _filterOnlyEnergySensor(TreeNodeModel node) {
-    return switch (node) {
-      AssetNodeModel(asset: final data) when data.isComponent =>
-        data.sensorType != SensorTypes.energy,
-      AssetNodeModel() => true,
-      LocationNodeModel() => true,
-    };
-  }
+  bool _energySensorFilter = false;
+  bool _alertStatusFilter = false;
 
   void _toggleEnergySensorFilter(bool value) {
-    // if (value) {
-    //   _controller.addFilter(_filterOnlyEnergySensor);
-    // } else {
-    //   _controller.removeFilter(_filterOnlyEnergySensor);
-    // }
+    _energySensorFilter = value;
+    _applyFilters();
   }
 
   void _toggleAlertStatusFilter(bool value) {
-    // if (value) {
-    //   _controller.addFilter(_filterOnlyAlertStatus);
-    // } else {
-    //   _controller.removeFilter(_filterOnlyAlertStatus);
-    // }
+    _alertStatusFilter = value;
+    _applyFilters();
+  }
+
+  void _applyFilters() {
+    _assetsKey.currentState?.filterBy(
+      name: _searchController.text,
+      status: _alertStatusFilter ? Statuses.alert : null,
+      sensorType: _energySensorFilter ? SensorTypes.energy : null,
+    );
   }
 
   void _toogleExpandAll(bool value) {
@@ -95,18 +74,10 @@ class _AssetsScreenState extends State<AssetsScreen> {
     // }
   }
 
-  void _toggleNameFilter() {
-    // if (_searchController.text.isNotEmpty) {
-    //   _controller.addFilter(_filterByName);
-    // } else {
-    //   _controller.removeFilter(_filterByName);
-    // }
-  }
-
   @override
   void initState() {
     super.initState();
-    // _searchController.addListener(_toggleNameFilter);
+    _searchController.addListener(_applyFilters);
   }
 
   @override
@@ -151,7 +122,11 @@ class _AssetsScreenState extends State<AssetsScreen> {
             child: ListenableBuilder(
               listenable: widget.viewModel,
               builder: (context, child) {
+                for (var a in widget.viewModel.assets) {
+                  print('${a.name} - ${a.status} - ${a.sensorType}');
+                }
                 return AssetsTreeView(
+                  key: _assetsKey,
                   assets: widget.viewModel.assets,
                   locations: widget.viewModel.locations,
                 );

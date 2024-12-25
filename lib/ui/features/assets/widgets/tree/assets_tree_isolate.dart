@@ -3,6 +3,7 @@ import 'dart:isolate';
 import '../../../../../core/domain/company_asset/company_asset.dart';
 import '../../../../../core/domain/company_location/company_location.dart';
 import '../../../../../core/domain/uid.dart';
+import 'assets_tree_filters.dart';
 import 'assets_tree_state.dart';
 
 final class AssetsTreeIsolateMessage {
@@ -52,6 +53,19 @@ final class AssetsTreeIsolateMessage {
             'nodeId': nodeId,
           },
         );
+
+  AssetsTreeIsolateMessage.refresh({
+    required SendPort sendPort,
+    required AssetsTreeState state,
+    required AssetsTreeFilters filters,
+  }) : this._(
+          sendPort: sendPort,
+          payload: {
+            'type': 'refresh',
+            'state': state,
+            'filters': filters,
+          },
+        );
 }
 
 abstract class AssetsTreeIsolate {
@@ -82,6 +96,12 @@ abstract class AssetsTreeIsolate {
           final newState = state.copyWith(
             expandedNodes: state.expandedNodes..remove(nodeId),
           );
+          sendPort.send(newState);
+          break;
+        case 'refresh':
+          final state = payload['state'] as AssetsTreeState;
+          final filters = payload['filters'] as AssetsTreeFilters;
+          final newState = state.copyWith(filters: filters);
           sendPort.send(newState);
           break;
       }
