@@ -1,11 +1,38 @@
 { "@@locale": "en",
   "appTitle": "Tractian: Business Assets",
+  "@appTitle": {
+    "description": "Title of the application"
+  },
   "searchHint": "Search Asset or Location",
+  "@searchHint": {
+    "description": "Hint text for the search bar"
+  },
   "energySensor": "Energy Sensor",
+  "@energySensor": {
+    "description": "Label for energy sensor"
+  },
   "critical": "Critical",
+  "@critical": {
+    "description": "Label for critical status"
+  },
   "expandAll": "Expand All",
+  "@expandAll": {
+    "description": "Button text to expand all items"
+  },
   "language": "Language",
+  "@language": {
+    "description": "Label for language selection"
+  },
   "spanish": "Spanish",
+  "@spanish": {
+    "description": "Label for Spanish language"
+  },
   "english": "English",
-  "portuguese": "Portuguese"
+  "@english": {
+    "description": "Label for English language"
+  },
+  "portuguese": "Portuguese",
+  "@portuguese": {
+    "description": "Label for Portuguese language"
+  }
 }
