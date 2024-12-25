@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../config/service_locator/service_locator_provider.dart';
+import '../../app/localization/custom_localization.dart';
+import '../../app/localization/custom_localizations.dart';
 import '../../app/routing/routes.dart';
 import '../../app/styles/styles.dart';
 import '../companies_view_model.dart';
@@ -32,11 +34,15 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context);
-    final languages = [
-      lang?.spanish,
-      lang?.english,
-      lang?.portuguese,
-    ];
+    final languages = {
+      CustomLocalizations.es: lang?.spanish,
+      CustomLocalizations.en: lang?.english,
+      CustomLocalizations.pt: lang?.portuguese,
+    };
+    final currentLocale = CustomLocalizationProvider.of(context).locale ??
+        CustomLocalizations.values
+            .byName(Localizations.localeOf(context).languageCode);
+
     final Styles(:colors, :text) = context.styles;
     return Scaffold(
       appBar: AppBar(
@@ -84,17 +90,19 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('${lang?.language}: '),
-            DropdownButton<String>(
-              items: languages
+            DropdownButton<CustomLocalizations>(
+              items: languages.entries
                   .map(
-                    (value) => DropdownMenuItem(
-                      value: value,
-                      child: Text(value ?? ''),
+                    (entry) => DropdownMenuItem(
+                      value: entry.key,
+                      child: Text(entry.value ?? ''),
                     ),
                   )
                   .toList(),
-              value: AppLocalizations.of(context)!.portuguese,
-              onChanged: (value) {},
+              value: currentLocale,
+              onChanged: (value) {
+                CustomLocalizationProvider.of(context).setLocale(value!);
+              },
               dropdownColor: colors.scaffoldBackground,
               elevation: 0,
               underline: SizedBox(),
