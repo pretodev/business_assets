@@ -122,9 +122,6 @@ class _AssetsScreenState extends State<AssetsScreen> {
             child: ListenableBuilder(
               listenable: widget.viewModel,
               builder: (context, child) {
-                for (var a in widget.viewModel.assets) {
-                  print('${a.name} - ${a.status} - ${a.sensorType}');
-                }
                 return AssetsTreeView(
                   key: _assetsKey,
                   assets: widget.viewModel.assets,

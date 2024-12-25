@@ -130,9 +130,7 @@ class AssetsTreeViewState extends State<AssetsTreeView> {
   Widget build(BuildContext context) {
     if (!_ready) {
       return const SliverFillRemaining(
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
+        child: SizedBox(),
       );
     }
     return SliverList.builder(
