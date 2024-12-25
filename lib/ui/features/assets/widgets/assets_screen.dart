@@ -67,11 +67,11 @@ class _AssetsScreenState extends State<AssetsScreen> {
   }
 
   void _toogleExpandAll(bool value) {
-    // if (value) {
-    //   _controller.expandAll();
-    // } else {
-    //   _controller.collapseAll();
-    // }
+    if (value) {
+      _assetsKey.currentState?.expandAll();
+    } else {
+      _assetsKey.currentState?.collapseAll();
+    }
   }
 
   @override

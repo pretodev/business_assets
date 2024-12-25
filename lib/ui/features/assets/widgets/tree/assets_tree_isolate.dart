@@ -31,7 +31,7 @@ final class AssetsTreeIsolateMessage {
   AssetsTreeIsolateMessage.expand({
     required SendPort sendPort,
     required AssetsTreeState state,
-    required Uid nodeId,
+    Uid? nodeId,
   }) : this._(
           sendPort: sendPort,
           payload: {
@@ -41,10 +41,10 @@ final class AssetsTreeIsolateMessage {
           },
         );
 
-  AssetsTreeIsolateMessage.collapsed({
+  AssetsTreeIsolateMessage.collapse({
     required SendPort sendPort,
     required AssetsTreeState state,
-    required Uid nodeId,
+    Uid? nodeId,
   }) : this._(
           sendPort: sendPort,
           payload: {
@@ -84,17 +84,30 @@ abstract class AssetsTreeIsolate {
           break;
         case 'expand':
           final state = payload['state'] as AssetsTreeState;
-          final nodeId = payload['nodeId'] as Uid;
+          final nodeId = payload['nodeId'] as Uid?;
+          final expandedNodes = state.expandedNodes;
+          if (nodeId != null) {
+            expandedNodes.add(nodeId);
+          } else {
+            expandedNodes.clear();
+            expandedNodes.addAll(state.nodeIds);
+          }
           final newState = state.copyWith(
-            expandedNodes: state.expandedNodes..add(nodeId),
+            expandedNodes: expandedNodes,
           );
           sendPort.send(newState);
           break;
         case 'collapsed':
           final state = payload['state'] as AssetsTreeState;
-          final nodeId = payload['nodeId'] as Uid;
+          final nodeId = payload['nodeId'] as Uid?;
+          final expandedNodes = state.expandedNodes;
+          if (nodeId != null) {
+            expandedNodes.remove(nodeId);
+          } else {
+            expandedNodes.clear();
+          }
           final newState = state.copyWith(
-            expandedNodes: state.expandedNodes..remove(nodeId),
+            expandedNodes: expandedNodes,
           );
           sendPort.send(newState);
           break;

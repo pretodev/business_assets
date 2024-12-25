@@ -52,6 +52,24 @@ class AssetsTreeViewState extends State<AssetsTreeView> {
     );
   }
 
+  void expandAll() {
+    _sendPort?.send(
+      AssetsTreeIsolateMessage.expand(
+        sendPort: _listenner.sendPort,
+        state: _tree,
+      ),
+    );
+  }
+
+  void collapseAll() {
+    _sendPort?.send(
+      AssetsTreeIsolateMessage.collapse(
+        sendPort: _listenner.sendPort,
+        state: _tree,
+      ),
+    );
+  }
+
   void _buildTree() async {
     final receivePort = ReceivePort();
     _isolate = await Isolate.spawn(
@@ -77,7 +95,7 @@ class AssetsTreeViewState extends State<AssetsTreeView> {
   void _toggleExpansion(AssetsTreeNodeModel node) {
     if (node.expanded) {
       _sendPort?.send(
-        AssetsTreeIsolateMessage.collapsed(
+        AssetsTreeIsolateMessage.collapse(
           sendPort: _listenner.sendPort,
           state: _tree,
           nodeId: node.resource.id,

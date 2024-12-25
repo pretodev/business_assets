@@ -160,6 +160,8 @@ class AssetsTreeState extends Equatable {
   /// Main map that groups each node by the key of its parent node.
   final Map<Uid, List<AssetsTreeNodeModel>> _nodesMap;
 
+  List<Uid> get nodeIds => _nodesMap.keys.toList();
+
   /// Returns a new state with possible modifications.
   AssetsTreeState copyWith({
     Set<Uid>? expandedNodes,
