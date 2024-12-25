@@ -11,7 +11,7 @@ class CompaniesViewModel extends ChangeNotifier {
   CompaniesViewModel({
     required CompanyRepository companyRepository,
   }) : _companyRepository = companyRepository {
-    loadCompanies = Command0(_loadCompanies)..execute();
+    loadCompanies = Command0(_loadCompanies);
   }
 
   List<Company> _companies = [];

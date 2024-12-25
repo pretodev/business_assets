@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../config/service_locator/service_locator_provider.dart';
 import '../../../styles/styles.dart';
-import '../../assets/widgets/assets_screen.dart';
+import '../../app/routing/routes.dart';
 import '../companies_view_model.dart';
 import 'company_tile.dart';
 
 class CompaniesScreen extends StatefulWidget {
   const CompaniesScreen({
     super.key,
-    required this.viewModel,
   });
-
-  final CompaniesViewModel viewModel;
 
   @override
   State<CompaniesScreen> createState() => _CompaniesScreenState();
 }
 
 class _CompaniesScreenState extends State<CompaniesScreen> {
+  late final _viewModel = CompaniesViewModel(
+    companyRepository: context.get(),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    Future(() => _viewModel.loadCompanies.execute());
+  }
+
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context);
@@ -35,12 +44,12 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
         centerTitle: true,
       ),
       body: ListenableBuilder(
-        listenable: widget.viewModel.loadCompanies,
+        listenable: _viewModel.loadCompanies,
         builder: (context, child) {
-          if (widget.viewModel.loadCompanies.completed) {
+          if (_viewModel.loadCompanies.completed) {
             return child!;
           }
-          if (widget.viewModel.loadCompanies.running) {
+          if (_viewModel.loadCompanies.running) {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -48,21 +57,21 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
           return SizedBox();
         },
         child: ListenableBuilder(
-          listenable: widget.viewModel,
+          listenable: _viewModel,
           builder: (context, child) {
             return ListView.builder(
               padding: EdgeInsets.symmetric(
                 horizontal: 22.0,
                 vertical: 30.0,
               ),
-              itemCount: widget.viewModel.companies.length,
+              itemCount: _viewModel.companies.length,
               itemBuilder: (context, index) {
-                final company = widget.viewModel.companies[index];
+                final company = _viewModel.companies[index];
                 return CompanyTile(
                   company: company,
-                  onClicked: () {
-                    AssetsScreen.push(context, company: company);
-                  },
+                  onClicked: () => context.go(
+                    Routes.companyAssets(company.id),
+                  ),
                 );
               },
             );

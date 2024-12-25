@@ -1,46 +1,31 @@
 import 'package:flutter/material.dart';
 
 import '../../../../config/service_locator/service_locator_provider.dart';
-import '../../../../core/domain/company/company.dart';
 import '../../../../core/domain/company_asset/sensor_types.dart';
 import '../../../../core/domain/company_asset/statuses.dart';
+import '../../../../core/domain/uid.dart';
 import '../assets_view_model.dart';
 import 'assets_filter_header_delegate.dart';
 import 'tree/assets_tree_view.dart';
 
 class AssetsScreen extends StatefulWidget {
-  static Future<void> push(
-    BuildContext context, {
-    required Company company,
-    bool replace = false,
-  }) {
-    final route = MaterialPageRoute<void>(
-      builder: (context) {
-        final viewModel = AssetsViewModel(
-          companyAssetRepository: context.get(),
-          companyLocationRepository: context.get(),
-        );
-        viewModel.loadActivities.execute(company.id);
-        return AssetsScreen(viewModel: viewModel);
-      },
-    );
-    return replace
-        ? Navigator.pushReplacement(context, route)
-        : Navigator.push(context, route);
-  }
-
   const AssetsScreen({
     super.key,
-    required this.viewModel,
+    required this.companyId,
   });
 
-  final AssetsViewModel viewModel;
+  final Uid companyId;
 
   @override
   State<AssetsScreen> createState() => _AssetsScreenState();
 }
 
 class _AssetsScreenState extends State<AssetsScreen> {
+  late final _viewModel = AssetsViewModel(
+    companyAssetRepository: context.get(),
+    companyLocationRepository: context.get(),
+  );
+
   final _searchController = TextEditingController();
 
   final _assetsKey = GlobalKey<AssetsTreeViewState>();
@@ -78,12 +63,12 @@ class _AssetsScreenState extends State<AssetsScreen> {
   void initState() {
     super.initState();
     _searchController.addListener(_applyFilters);
+    Future(() => _viewModel.loadActivities.execute(widget.companyId));
   }
 
   @override
   void dispose() {
     _searchController.dispose();
-    // _controller.dispose();
     super.dispose();
   }
 
@@ -108,9 +93,9 @@ class _AssetsScreenState extends State<AssetsScreen> {
             ),
           ),
           ListenableBuilder(
-            listenable: widget.viewModel.loadActivities,
+            listenable: _viewModel.loadActivities,
             builder: (context, child) {
-              if (widget.viewModel.loadActivities.running) {
+              if (_viewModel.loadActivities.running) {
                 return const SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -120,12 +105,12 @@ class _AssetsScreenState extends State<AssetsScreen> {
               return child!;
             },
             child: ListenableBuilder(
-              listenable: widget.viewModel,
+              listenable: _viewModel,
               builder: (context, child) {
                 return AssetsTreeView(
                   key: _assetsKey,
-                  assets: widget.viewModel.assets,
-                  locations: widget.viewModel.locations,
+                  assets: _viewModel.assets,
+                  locations: _viewModel.locations,
                 );
               },
             ),
