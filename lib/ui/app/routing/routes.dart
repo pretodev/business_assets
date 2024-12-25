@@ -1,4 +1,4 @@
-import '../../../../core/domain/uid.dart';
+import '../../../core/domain/uid.dart';
 
 abstract final class Routes {
   // resources

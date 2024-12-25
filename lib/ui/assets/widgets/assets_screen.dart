@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../config/service_locator/service_locator_provider.dart';
-import '../../../../core/domain/company_asset/sensor_types.dart';
-import '../../../../core/domain/company_asset/statuses.dart';
-import '../../../../core/domain/uid.dart';
+import '../../../config/service_locator/service_locator_provider.dart';
+import '../../../core/domain/company_asset/sensor_types.dart';
+import '../../../core/domain/company_asset/statuses.dart';
+import '../../../core/domain/uid.dart';
 import '../assets_view_model.dart';
 import 'assets_filter_header_delegate.dart';
 import 'tree/assets_tree_view.dart';

@@ -2,7 +2,7 @@
 // ignore_for_file: type=lint
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/domain/commom/company_resource.dart';
+import '../../../../core/domain/commom/company_resource.dart';
 
 class AssetsTreeNodeModel extends Equatable {
   final CompanyResource resource;

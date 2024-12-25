@@ -2,10 +2,10 @@ import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 
-import '../../../../../core/domain/company_asset/company_asset.dart';
-import '../../../../../core/domain/company_asset/sensor_types.dart';
-import '../../../../../core/domain/company_asset/statuses.dart';
-import '../../../../../core/domain/company_location/company_location.dart';
+import '../../../../core/domain/company_asset/company_asset.dart';
+import '../../../../core/domain/company_asset/sensor_types.dart';
+import '../../../../core/domain/company_asset/statuses.dart';
+import '../../../../core/domain/company_location/company_location.dart';
 import 'assets_tree_filters.dart';
 import 'assets_tree_isolate.dart';
 import 'assets_tree_node_model.dart';

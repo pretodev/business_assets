@@ -4,7 +4,7 @@ import 'config/firebase/firebase_setup.dart';
 import 'config/service_locator/service_locator.dart';
 import 'config/service_locator/service_locator_provider.dart';
 import 'config/setup.dart';
-import 'ui/features/app/app.dart';
+import 'ui/app/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

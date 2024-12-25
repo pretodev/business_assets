@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/domain/uid.dart';
+import '../../../core/domain/uid.dart';
 import '../../assets/widgets/assets_screen.dart';
 import '../../companies/widgets/companies_screen.dart';
 import 'routes.dart';

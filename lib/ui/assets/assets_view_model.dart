@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../core/domain/company_asset/company_asset.dart';
-import '../../../core/domain/company_asset/company_asset_repository.dart';
-import '../../../core/domain/company_location/company_location.dart';
-import '../../../core/domain/company_location/company_location_repository.dart';
-import '../../../core/domain/result.dart';
-import '../../../core/domain/uid.dart';
+import '../../core/domain/company_asset/company_asset.dart';
+import '../../core/domain/company_asset/company_asset_repository.dart';
+import '../../core/domain/company_location/company_location.dart';
+import '../../core/domain/company_location/company_location_repository.dart';
+import '../../core/domain/result.dart';
+import '../../core/domain/uid.dart';
 import '../command.dart';
 
 class AssetsViewModel extends ChangeNotifier {

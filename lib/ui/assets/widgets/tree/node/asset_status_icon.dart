@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/domain/company_asset/statuses.dart';
+import '../../../../../core/domain/company_asset/statuses.dart';
 import '../../../../app/widgets/app_icon.dart';
 
 class AssetStatusIcon extends StatelessWidget {

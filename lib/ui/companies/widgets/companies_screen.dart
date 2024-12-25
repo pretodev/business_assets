@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../config/service_locator/service_locator_provider.dart';
+import '../../../config/service_locator/service_locator_provider.dart';
 import '../../app/routing/routes.dart';
 import '../../app/styles/styles.dart';
 import '../companies_view_model.dart';

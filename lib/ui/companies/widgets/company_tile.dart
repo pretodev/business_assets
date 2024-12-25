@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/domain/company/company.dart';
+import '../../../core/domain/company/company.dart';
 import '../../app/styles/styles.dart';
 import '../../app/widgets/app_icon.dart';
 

@@ -1,6 +1,6 @@
-import '../../../../../core/domain/company_asset/company_asset.dart';
-import '../../../../../core/domain/company_asset/sensor_types.dart';
-import '../../../../../core/domain/company_asset/statuses.dart';
+import '../../../../core/domain/company_asset/company_asset.dart';
+import '../../../../core/domain/company_asset/sensor_types.dart';
+import '../../../../core/domain/company_asset/statuses.dart';
 import 'assets_tree_node_model.dart';
 
 typedef AssetsTreeFilterFunc = bool Function(AssetsTreeNodeModel asset);

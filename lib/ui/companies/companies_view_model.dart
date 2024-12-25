@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../core/domain/company/company.dart';
-import '../../../core/domain/company/company_repository.dart';
-import '../../../core/domain/result.dart';
+import '../../core/domain/company/company.dart';
+import '../../core/domain/company/company_repository.dart';
+import '../../core/domain/result.dart';
 import '../command.dart';
 
 class CompaniesViewModel extends ChangeNotifier {
