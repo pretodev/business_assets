@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/domain/company/company.dart';
-import '../../../styles/styles.dart';
 import '../../../widgets/app_icon.dart';
+import '../../app/styles/styles.dart';
 
 class CompanyTile extends StatelessWidget {
   const CompanyTile({

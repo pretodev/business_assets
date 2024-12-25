@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../styles/styles.dart';
+import '../features/app/styles/styles.dart';
 
 class SwitchButton extends StatefulWidget {
   const SwitchButton({

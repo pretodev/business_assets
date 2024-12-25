@@ -1,4 +1,4 @@
-part of './styles.dart';
+part of 'styles.dart';
 
 extension ColorFilterOnColor on Color {
   ColorFilter get colorFilter => ColorFilter.mode(this, BlendMode.srcIn);

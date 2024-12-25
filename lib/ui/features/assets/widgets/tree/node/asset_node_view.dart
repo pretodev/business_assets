@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/domain/company_asset/company_asset.dart';
-import '../../../../../styles/styles.dart';
+import '../../../../app/styles/styles.dart';
 import '../assets_tree_node_model.dart';
 import 'asset_node_icon.dart';
 import 'asset_status_icon.dart';

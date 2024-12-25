@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../styles/styles.dart';
 import 'routing/router.dart';
+import 'styles/styles.dart';
 
 class BusinessAssetsApp extends StatelessWidget {
   const BusinessAssetsApp({super.key});
