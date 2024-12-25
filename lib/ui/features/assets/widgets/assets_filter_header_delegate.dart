@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../widgets/switch_button.dart';
+import '../../app/widgets/switch_button.dart';
 
 class AssetsFilterHeaderDelegate extends SliverPersistentHeaderDelegate {
   final TextEditingController searchController;

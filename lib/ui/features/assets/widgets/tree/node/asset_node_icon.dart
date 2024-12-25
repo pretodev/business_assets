@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../../../../../core/domain/company_asset/company_asset.dart';
 import '../../../../../../core/domain/company_location/company_location.dart';
-import '../../../../../widgets/app_icon.dart';
+import '../../../../app/widgets/app_icon.dart';
 import '../assets_tree_node_model.dart';
 
 class AssetNodeIcon extends StatelessWidget {
