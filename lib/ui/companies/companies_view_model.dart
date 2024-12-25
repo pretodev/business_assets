@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 
 import '../../core/domain/company/company.dart';
 import '../../core/domain/company/company_repository.dart';
@@ -14,6 +15,8 @@ class CompaniesViewModel extends ChangeNotifier {
     loadCompanies = Command0(_loadCompanies);
   }
 
+  final _log = Logger('CompaniesViewModel');
+
   List<Company> _companies = [];
 
   List<Company> get companies => _companies;
@@ -28,7 +31,7 @@ class CompaniesViewModel extends ChangeNotifier {
         _companies = result.value;
         notifyListeners();
       case Error():
-        print('ERROR: ${result.error}');
+        _log.warning('ERROR: ${result.error}');
     }
 
     return result;

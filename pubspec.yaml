@@ -22,9 +22,9 @@ dependencies:
   auto_injector: ^2.0.5
   dio: ^5.7.0
   flutter_svg: ^2.0.14
-  provider: ^6.1.2
   go_router: ^14.6.2
   shared_preferences: ^2.3.4
+  logging: ^1.3.0
 
 dev_dependencies:
   flutter_test:
