@@ -1,0 +1,11 @@
+{ "@@locale": "pt",
+  "appTitle": "Tractian: Ativos Empresariais",
+  "searchHint": "Buscar Ativo ou Local",
+  "energySensor": "Sensor de Energia",
+  "critical": "Crítico",
+  "expandAll": "Expandir Tudo",
+  "language": "Idioma",
+  "spanish": "Espanhol",
+  "english": "Inglês",
+  "portuguese": "Português"
+}

@@ -1,0 +1,38 @@
+{ "@@locale": "es",
+  "appTitle": "Tractian: Activos Empresariales",
+  "@appTitle": {
+    "description": "Título de la aplicación"
+  },
+  "searchHint": "Buscar Activo o Ubicación",
+  "@searchHint": {
+    "description": "Texto de sugerencia para la barra de búsqueda"
+  },
+  "energySensor": "Sensor de Energía",
+  "@energySensor": {
+    "description": "Etiqueta para el sensor de energía"
+  },
+  "critical": "Crítico",
+  "@critical": {
+    "description": "Etiqueta para estado crítico"
+  },
+  "expandAll": "Expandir Todo",
+  "@expandAll": {
+    "description": "Texto del botón para expandir todos los elementos"
+  },
+  "language": "Idioma",
+  "@language": {
+    "description": "Etiqueta para la selección de idioma"
+  },
+  "spanish": "Español",
+  "@spanish": {
+    "description": "Etiqueta para el idioma español"
+  },
+  "english": "Inglés",
+  "@english": {
+    "description": "Etiqueta para el idioma inglés"
+  },
+  "portuguese": "Portugués",
+  "@portuguese": {
+    "description": "Etiqueta para el idioma portugués"
+  }
+}

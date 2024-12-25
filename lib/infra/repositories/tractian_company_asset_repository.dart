@@ -1,9 +1,8 @@
-import '../../config/tractan/tractan_http_client.dart';
-import '../../domain/commom/uid.dart';
-import '../../domain/company_asset/company_asset.dart';
-import '../../domain/company_asset/company_asset_repository.dart';
-import '../converters/company_asset_converter.dart';
-import '../converters/converter.dart';
+import '../../core/domain/company_asset/company_asset.dart';
+import '../../core/domain/company_asset/company_asset_repository.dart';
+import '../../core/domain/result.dart';
+import '../../core/domain/uid.dart';
+import '../services/http/tractian_http_client.dart';
 
 class TractianCompanyAssetRepository implements CompanyAssetRepository {
   final TractanHttpClient _httpClient;
@@ -13,8 +12,8 @@ class TractianCompanyAssetRepository implements CompanyAssetRepository {
   }) : _httpClient = httpClient;
 
   @override
-  Future<List<CompanyAsset>> fromCompany(Uid companyId) async {
-    final data = await _httpClient.get('/companies/$companyId/assets');
-    return DataConverter.entities(data, TractianHttpCompanyAssetMapper());
+  AsyncResult<List<CompanyAsset>> fromCompany(Uid companyId) async {
+    final response = await _httpClient.get('/companies/$companyId/assets');
+    return Result.ok(response.companyAssets);
   }
 }
