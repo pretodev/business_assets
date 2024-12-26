@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../config/service_locator/service_locator_provider.dart';
 import '../../../core/domain/company_asset/sensor_types.dart';
 import '../../../core/domain/company_asset/statuses.dart';
 import '../../../core/domain/uid.dart';
-import '../../app/styles/styles.dart';
 import '../assets_view_model.dart';
 import 'assets_filter_header_delegate.dart';
 import 'tree/assets_tree_view.dart';
@@ -76,54 +74,49 @@ class _AssetsScreenState extends State<AssetsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: context.styles.colors.secondary,
-      ),
-      child: Scaffold(
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              const SliverAppBar(
-                title: Text('Assets'),
-                centerTitle: true,
-                pinned: false,
+    return Scaffold(
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            const SliverAppBar(
+              title: Text('Assets'),
+              centerTitle: true,
+              pinned: false,
+            ),
+            SliverPersistentHeader(
+              floating: false,
+              pinned: true,
+              delegate: AssetsFilterHeaderDelegate(
+                searchController: _searchController,
+                toggleEnergySensorFilter: _toggleEnergySensorFilter,
+                toggleAlertStatusFilter: _toggleAlertStatusFilter,
+                toggleExpandAll: _toogleExpandAll,
               ),
-              SliverPersistentHeader(
-                floating: true,
-                pinned: false,
-                delegate: AssetsFilterHeaderDelegate(
-                  searchController: _searchController,
-                  toggleEnergySensorFilter: _toggleEnergySensorFilter,
-                  toggleAlertStatusFilter: _toggleAlertStatusFilter,
-                  toggleExpandAll: _toogleExpandAll,
-                ),
-              ),
-              ListenableBuilder(
-                listenable: _viewModel.loadActivities,
+            ),
+            ListenableBuilder(
+              listenable: _viewModel.loadActivities,
+              builder: (context, child) {
+                if (_viewModel.loadActivities.running) {
+                  return const SliverFillRemaining(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                return child!;
+              },
+              child: ListenableBuilder(
+                listenable: _viewModel,
                 builder: (context, child) {
-                  if (_viewModel.loadActivities.running) {
-                    return const SliverFillRemaining(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                  return child!;
+                  return AssetsTreeView(
+                    key: _assetsKey,
+                    assets: _viewModel.assets,
+                    locations: _viewModel.locations,
+                  );
                 },
-                child: ListenableBuilder(
-                  listenable: _viewModel,
-                  builder: (context, child) {
-                    return AssetsTreeView(
-                      key: _assetsKey,
-                      assets: _viewModel.assets,
-                      locations: _viewModel.locations,
-                    );
-                  },
-                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

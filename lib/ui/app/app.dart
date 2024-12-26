@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'localization/custom_localization.dart';
@@ -19,8 +20,15 @@ class BusinessAssetsApp extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         builder: (context, child) {
-          return CustomLocalizationOverride(
-            child: child ?? const SizedBox(),
+          return AnnotatedRegion(
+            value: SystemUiOverlayStyle(
+              statusBarColor: Theme.of(context).appBarTheme.backgroundColor,
+              statusBarIconBrightness: Brightness
+                  .light, // ou Brightness.dark, dependendo do seu tema
+            ),
+            child: CustomLocalizationOverride(
+              child: child ?? const SizedBox(),
+            ),
           );
         },
       ),

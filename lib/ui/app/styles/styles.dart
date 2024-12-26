@@ -9,7 +9,9 @@ class Styles extends ThemeExtension<Styles> {
   static ThemeData get theme {
     final text = TextStyles.theme();
     final colors = ColorStyles.theme();
+
     return ThemeData(
+      colorScheme: ColorScheme.fromSwatch(),
       scaffoldBackgroundColor: colors.scaffoldBackground,
       appBarTheme: AppBarTheme(
         elevation: 0,
