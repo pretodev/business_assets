@@ -12,7 +12,11 @@ To gain access to the application, please follow these steps:
 > https://appdistribution.firebase.dev/i/ae4341b7582c14d9
 2. Once you join, you will receive instructions to download and install the app on your Android device.
 
+### Demo Video
 
+To see a demonstration of the Business Assets application in action, please watch the video below:
+
+![Demo Video](./docs/demo.mp4)
 
 
 
