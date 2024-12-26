@@ -49,6 +49,28 @@ Returns all assets of the company.
 
 The design specifications are available through [Figma](https://www.figma.com/file/IP50SSLkagXsUNWiZj0PjP/%5BCareers%5D-Flutter-Challenge-v2?type=design&node-id=0%3A1&mode=design&t=puUgGuBG9v8leaSQ-1).
 
+
+### Future Implementations
+
+**Business Assets** already provides a robust solution for managing industrial assets and components, but there are several improvements planned to make the application even more efficient and user-friendly. Here are the next features I plan to implement:
+
+1. **Analytics Events**  
+   I intend to add analytics events to track user interactions with the application. This functionality will allow:  
+   - Gaining insights into how features are being used.  
+   - Identifying areas for improving user experience.  
+   - Monitoring key metrics to guide future updates.  
+
+2. **Offline First Support**  
+   Offline-first support is a crucial feature for industrial environments with limited connectivity. With this enhancement, users will be able to:  
+   - Access and edit data locally without relying on an internet connection.  
+   - Synchronize changes automatically when connectivity is restored.  
+   - Ensure operational continuity even in remote locations.  
+
+3. **Tree Structure Sorting**  
+   I plan to implement sorting functionality for the hierarchical tree structure. This improvement will enable:  
+   - Reorganizing assets and components based on specific criteria such as name, location, or status.  
+   - Providing a more efficient and personalized navigation experience.  
+
 ### Developer
 
 This project is developed by [Silas Ribeiro](https://github.com/pretodev), a software engineer specialized in creating mobile applications with Flutter.
